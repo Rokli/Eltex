@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h> 
 #define true 1
 #define false 0
 #define N 512
@@ -43,14 +42,73 @@ void AddPerson(struct Person phoneBook[N]){
         return;
     }
     person.id = id + 1;
+    printf("ID пользователя:%d\n",person.id);
     phoneBook[id] = person; 
 }
+
 void PrintPhoneBook(struct Person phoneBook[]){
-    for(int i = 0; i < N; i++){
-        printf("%s",phoneBook[i].name);
+    for(int i = 0; phoneBook[i].id != 0; i++){
+        printf("%d",phoneBook[i].id);
     }
     printf("\n");
 }
+int FindContactId(struct Person phoneBook[]){
+    int id = 0;
+    printf("Введите ID пользователя:");
+    scanf("%d",&id);
+    for(int i; i < N; i++){
+        if(phoneBook[i].id == id){
+            break;
+        }
+    }
+    if(id == 0){
+        printf("Нет такого ID");
+        return false;
+    }
+    return id;
+}
+void PrintContact(struct Person phoneBook[]){
+    int id = FindContactId(phoneBook);
+    if(id == 0) return;
+    printf("%d\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",phoneBook[id].id,phoneBook[id].name,phoneBook[id].surname,phoneBook[id].patronymic
+                                            ,phoneBook[id].post,phoneBook[id].numberPhone,phoneBook[id].email,phoneBook[id].socialNetwork);
+}
+void ChangeContact(struct Person phoneBook[N]){
+    int id = FindContactId(phoneBook);
+    if(id == 0) return;
+    printf("1 - Изменить имя\n2 - Изменить фамилию\n3 - Изменить Отчество\n4 - Изменить должность\n5 - Изменить номер телефона\n6 - Изменить почту\n7 - Изменить социальные сети\n");
+    int tmp;
+    scanf("%d", &tmp);
+    getchar();
+    printf("Введите новое значение:");
+    switch (tmp)
+    {
+    case 1:
+        scanf("%s", &phoneBook[id].name);
+        break;
+    case 2:
+        scanf("%s", &phoneBook[id].surname);
+        break;
+    case 3:
+        scanf("%s", &phoneBook[id].patronymic);
+        break;
+    case 4:
+        scanf("%s", &phoneBook[id].post);
+        break;
+    case 5:
+        scanf("%s", &phoneBook[id].numberPhone);
+        break;
+    case 6:
+        scanf("%s", &phoneBook[id].email);
+        break;
+    case 7:
+        scanf("%s", &phoneBook[id].socialNetwork);
+        break;
+    default:
+        break;
+    }
+}
+
 int main(void){
     struct Person phoneBook[N];
     int tmp;
@@ -69,8 +127,9 @@ int main(void){
             break;
         case 3:
             flag = false;
+            break;
         case 4:
-            printf("4");
+            ChangeContact(phoneBook);
             break;
         default:
             break;
