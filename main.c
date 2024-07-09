@@ -15,7 +15,7 @@ struct Person {
     char socialNetwork[N];
 };
 
-struct Person AddPerson(){
+struct Person CreatePerson(){
     struct Person person;
 
     printf("Введите имя:");
@@ -29,7 +29,23 @@ struct Person AddPerson(){
 
     return person;
 }
-void PrintPhoneBook(struct Person phoneBook[N]){
+void AddPerson(struct Person phoneBook[N]){
+    struct Person person = CreatePerson();
+    int id = 0;
+    for (int i = 0; i < N; i++) {
+        if (phoneBook[i].id == 0) {
+            id = i;
+            break;
+        }
+    }
+    if (id == N) {
+        printf("Телефонная книга заполнена\n");
+        return;
+    }
+    person.id = id + 1;
+    phoneBook[id] = person; 
+}
+void PrintPhoneBook(struct Person phoneBook[]){
     for(int i = 0; i < N; i++){
         printf("%s",phoneBook[i].name);
     }
@@ -37,22 +53,25 @@ void PrintPhoneBook(struct Person phoneBook[N]){
 }
 int main(void){
     struct Person phoneBook[N];
-    char tmp[1];
+    int tmp;
     int flag = 1;
     while(flag){
-        printf("1 - Добавить пользователя \t 2- Вывести список пользователей\n3 - Выйти из телефонной книги\n");
-        scanf("%c", &tmp);
-        fflush(stdin);
-        switch (atoi(tmp))
+        printf("1 - Добавить пользователя\t2 - Вывести список пользователей\n3 - Выйти из телефонной книги\t4 - Редактировать контакт\n");
+        scanf("%d", &tmp);
+        getchar();
+        switch (tmp)
         {
         case 1:
-            phoneBook[0] = AddPerson();
+            AddPerson(phoneBook);
             break;
         case 2:
             PrintPhoneBook(phoneBook);
             break;
         case 3:
             flag = false;
+        case 4:
+            printf("4");
+            break;
         default:
             break;
         }
