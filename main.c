@@ -19,15 +19,18 @@ struct Person AddPerson(){
     struct Person person;
 
     printf("Введите имя:");
-    scanf("%c", &person.name);
+    scanf("%s", &person.name);
 
     printf("Введите фамилию:");
-    scanf("%c", &person.surname);
+    scanf("%s", &person.surname);
 
     printf("Введите отчество:");
-    scanf("%c", &person.patronymic);
+    scanf("%s", &person.patronymic);
 
     return person;
+}
+void PrintPhoneBook(struct Person phoneBook[N]){
+    printf("%s",phoneBook[1].name);
 }
 int main(void){
     struct Person phoneBook[N];
@@ -36,13 +39,14 @@ int main(void){
     while(flag){
         printf("1 - Добавить пользователя \t 2- Вывести список пользователей\n3 - Выйти из телефонной книги\n");
         scanf("%c", &tmp);
+        fflush(stdin);
         switch (atoi(tmp))
         {
         case 1:
             phoneBook[1] = AddPerson();
             break;
         case 2:
-            printf("2");
+            PrintPhoneBook(phoneBook);
             break;
         case 3:
             flag = false;
