@@ -30,7 +30,10 @@ struct Person AddPerson(){
     return person;
 }
 void PrintPhoneBook(struct Person phoneBook[N]){
-    printf("%s",phoneBook[1].name);
+    for(int i = 0; i < N; i++){
+        printf("%s",phoneBook[i].name);
+    }
+    printf("\n");
 }
 int main(void){
     struct Person phoneBook[N];
@@ -43,7 +46,7 @@ int main(void){
         switch (atoi(tmp))
         {
         case 1:
-            phoneBook[1] = AddPerson();
+            phoneBook[0] = AddPerson();
             break;
         case 2:
             PrintPhoneBook(phoneBook);
