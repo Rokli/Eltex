@@ -48,7 +48,7 @@ void AddPerson(struct Person phoneBook[N]){
 
 void PrintPhoneBook(struct Person phoneBook[]){
     for(int i = 0; phoneBook[i].id != 0; i++){
-        printf("%d",phoneBook[i].id);
+        printf("ID:%d\nИмя:%s",phoneBook[i].id,phoneBook[i].name);
     }
     printf("\n");
 }
@@ -68,14 +68,19 @@ int FindContactId(struct Person phoneBook[]){
     return id;
 }
 void PrintContact(struct Person phoneBook[]){
-    int id = FindContactId(phoneBook);
-    if(id == 0) return;
+    int id = FindContactId(phoneBook)-1;
+    if(id == -1) return;
+    printf("%d\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",phoneBook[id].id,phoneBook[id].name,phoneBook[id].surname,phoneBook[id].patronymic
+                                            ,phoneBook[id].post,phoneBook[id].numberPhone,phoneBook[id].email,phoneBook[id].socialNetwork);
+}
+void PrintContactId(struct Person phoneBook[], int id){
     printf("%d\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",phoneBook[id].id,phoneBook[id].name,phoneBook[id].surname,phoneBook[id].patronymic
                                             ,phoneBook[id].post,phoneBook[id].numberPhone,phoneBook[id].email,phoneBook[id].socialNetwork);
 }
 void ChangeContact(struct Person phoneBook[N]){
-    int id = FindContactId(phoneBook);
-    if(id == 0) return;
+    int id = FindContactId(phoneBook) - 1;
+    if(id == -1) return;
+    PrintContactId(phoneBook,id);
     printf("1 - Изменить имя\n2 - Изменить фамилию\n3 - Изменить Отчество\n4 - Изменить должность\n5 - Изменить номер телефона\n6 - Изменить почту\n7 - Изменить социальные сети\n");
     int tmp;
     scanf("%d", &tmp);
