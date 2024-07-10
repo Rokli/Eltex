@@ -16,6 +16,7 @@ typedef struct{
     char homePhone[N];
     char workPhone[N];
 }mobilephone;
+
 typedef struct{
     int id;
     char name[N];
