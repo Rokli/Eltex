@@ -58,9 +58,7 @@ int FindContactId(struct Person phoneBook[]){
     printf("Введите ID пользователя:");
     scanf("%d",&id);
     for(int i; i < N; i++){
-        if(phoneBook[i].id == id){
-            break;
-        }
+        if(phoneBook[i].id == id) break;
     }
     if(id == 0){
         printf("Нет такого ID");
@@ -71,8 +69,9 @@ int FindContactId(struct Person phoneBook[]){
 void PrintContact(struct Person phoneBook[]){
     int id = FindContactId(phoneBook)-1;
     if(id == -1) return;
-    printf("%d\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",phoneBook[id].id,phoneBook[id].name,phoneBook[id].surname,phoneBook[id].patronymic
-                                            ,phoneBook[id].post,phoneBook[id].numberPhone,phoneBook[id].email,phoneBook[id].socialNetwork);
+    printf("ID:%d\nИмя:%s\nФамилия:%s\nОтчество%s\nДолжность:%s\nНомер телефона:%s\nЭлектронная почта:%s\nСоциальная сеть:%s\n",
+    phoneBook[id].id,phoneBook[id].name,phoneBook[id].surname,phoneBook[id].patronymic
+    ,phoneBook[id].post,phoneBook[id].numberPhone,phoneBook[id].email,phoneBook[id].socialNetwork);
 }
 void PrintContactId(struct Person phoneBook[], int id){
     printf("ID:%d\nИмя:%s\nФамилия:%s\nОтчество%s\nДолжность:%s\nНомер телефона:%s\nЭлектронная почта:%s\nСоциальная сеть:%s\n",
