@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #define true 1
 #define false 0
 #define N 512
@@ -45,10 +46,9 @@ void AddPerson(struct Person phoneBook[N]){
     printf("ID пользователя:%d\n",person.id);
     phoneBook[id] = person; 
 }
-
 void PrintPhoneBook(struct Person phoneBook[]){
-    for(int i = 0; phoneBook[i].id != 0; i++){
-        printf("ID:%d\nИмя:%s",phoneBook[i].id,phoneBook[i].name);
+    for(int i = 0;i < N; i++){
+        if(phoneBook[i].id != 0) printf("\nID:%d\nИмя:%s",phoneBook[i].id,phoneBook[i].name);
     }
     printf("\n");
 }
@@ -113,13 +113,20 @@ void ChangeContact(struct Person phoneBook[N]){
         break;
     }
 }
-
+void DeleteContact(struct Person phoneBook[N]){
+    int id = FindContactId(phoneBook) - 1;
+    if(id == -1) return;
+    memset(phoneBook[id].name,0,N);
+    memset(phoneBook[id].surname,0,N);
+    memset(phoneBook[id].patronymic,0,N);
+    phoneBook[id].id = 0;
+}
 int main(void){
     struct Person phoneBook[N];
     int tmp;
     int flag = 1;
     while(flag){
-        printf("1 - Добавить пользователя\t2 - Вывести список пользователей\n3 - Выйти из телефонной книги\t4 - Редактировать контакт\n");
+        printf("1 - Добавить пользователя\t2 - Вывести список пользователей\n3 - Выйти из телефонной книги\t4 - Редактировать контакт\n5 - Удалить контакт\n");
         scanf("%d", &tmp);
         getchar();
         switch (tmp)
@@ -135,6 +142,9 @@ int main(void){
             break;
         case 4:
             ChangeContact(phoneBook);
+            break;
+        case 5:
+            DeleteContact(phoneBook);
             break;
         default:
             break;
