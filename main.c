@@ -5,19 +5,30 @@
 #define false 0
 #define N 512
 
-struct Person {
+typedef struct
+{
+    char vkontakte[N];
+    char ok[N];
+    char facebook[N];
+}socialNetwork;
+
+typedef struct{
+    char homePhone[N];
+    char workPhone[N];
+}mobilephone;
+typedef struct{
     int id;
     char name[N];
     char surname [N];
     char patronymic[N];
     char post[N];
-    char numberPhone[N];
+    mobilephone numberPhone;
     char email[N];
-    char socialNetwork[N];
-};
+    socialNetwork socialNetwork;
+}Person;
 
-struct Person CreatePerson(){
-    struct Person person;
+Person CreatePerson(){
+    Person person;
 
     printf("Введите имя:");
     scanf("%s", &person.name);
@@ -30,8 +41,8 @@ struct Person CreatePerson(){
 
     return person;
 }
-void AddPerson(struct Person phoneBook[N]){
-    struct Person person = CreatePerson();
+void AddPerson(Person phoneBook[N]){
+    Person person = CreatePerson();
     int id = 0;
     for (int i = 0; i < N; i++) {
         if (phoneBook[i].id == 0) {
@@ -47,13 +58,13 @@ void AddPerson(struct Person phoneBook[N]){
     printf("ID пользователя:%d\n",person.id);
     phoneBook[id] = person; 
 }
-void PrintPhoneBook(struct Person phoneBook[]){
+void PrintPhoneBook(Person phoneBook[]){
     for(int i = 0;i < N; i++){
         if(phoneBook[i].id != 0) printf("\nID:%d\nИмя:%s",phoneBook[i].id,phoneBook[i].name);
     }
     printf("\n");
 }
-int FindContactId(struct Person phoneBook[]){
+int FindContactId(Person phoneBook[]){
     int id = 0;
     printf("Введите ID пользователя:");
     scanf("%d",&id);
@@ -66,19 +77,60 @@ int FindContactId(struct Person phoneBook[]){
     }
     return id;
 }
-void PrintContact(struct Person phoneBook[]){
+void EditSocialNetwork(Person phoneBook[N],int id){
+    printf("\nСоциальные сети:%s\t%s\t%s",phoneBook[id].socialNetwork.vkontakte,phoneBook[id].socialNetwork.ok,phoneBook[id].socialNetwork.facebook);
+    printf("\n1 - Изменить ВК\t2 - Изменить Одноклассники\t3 - Изменить Фейсбук\n");
+    int tmp;
+    scanf("%d", &tmp);
+    getchar();
+    printf("Введите новое значение:");
+    switch (tmp)
+    {
+    case 1:
+        scanf("%s", &phoneBook[id].socialNetwork.vkontakte);
+        break;
+    case 2:
+        scanf("%s", &phoneBook[id].socialNetwork.ok);
+        break;
+    case 3:
+        scanf("%s", &phoneBook[id].socialNetwork.facebook);
+        break;
+    default:
+        break;
+    }
+}
+void EditMobilePhone(Person phoneBook[N],int id){
+    printf("\nНомера::%s\t%s",phoneBook[id].numberPhone.homePhone,phoneBook[id].numberPhone.workPhone);
+    printf("\n1 - Изменить домашний номер\t2 - Изменить рабочий номер");
+    int tmp;
+    scanf("%d", &tmp);
+    getchar();
+    printf("Введите новое значение:");
+    switch (tmp)
+    {
+    case 1:
+        scanf("%s", &phoneBook[id].numberPhone.homePhone);
+        break;
+    case 2:
+        scanf("%s", &phoneBook[id].numberPhone.workPhone);
+        break;
+    default:
+        break;
+    }
+}
+void PrintContact(Person phoneBook[]){
     int id = FindContactId(phoneBook)-1;
     if(id == -1) return;
-    printf("ID:%d\nИмя:%s\nФамилия:%s\nОтчество%s\nДолжность:%s\nНомер телефона:%s\nЭлектронная почта:%s\nСоциальная сеть:%s\n",
+    printf("ID:%d\nИмя:%s\nФамилия:%s\nОтчество%s\nДолжность:%s\nНомер телефона:%s\nЭлектронная почта:%s\nСоциальная сеть:%s,%s,%s\n",
     phoneBook[id].id,phoneBook[id].name,phoneBook[id].surname,phoneBook[id].patronymic
-    ,phoneBook[id].post,phoneBook[id].numberPhone,phoneBook[id].email,phoneBook[id].socialNetwork);
+    ,phoneBook[id].post,phoneBook[id].numberPhone,phoneBook[id].email,phoneBook[id].socialNetwork.facebook,phoneBook[id].socialNetwork.ok,phoneBook[id].socialNetwork.vkontakte);
 }
-void PrintContactId(struct Person phoneBook[], int id){
-    printf("ID:%d\nИмя:%s\nФамилия:%s\nОтчество%s\nДолжность:%s\nНомер телефона:%s\nЭлектронная почта:%s\nСоциальная сеть:%s\n",
+void PrintContactId(Person phoneBook[], int id){
+    printf("ID:%d\nИмя:%s\nФамилия:%s\nОтчество%s\nДолжность:%s\nНомер телефона:%s,%s\nЭлектронная почта:%s\nСоциальная сеть:%s,%s,%s\n",
     phoneBook[id].id,phoneBook[id].name,phoneBook[id].surname,phoneBook[id].patronymic
-    ,phoneBook[id].post,phoneBook[id].numberPhone,phoneBook[id].email,phoneBook[id].socialNetwork);
+    ,phoneBook[id].post,phoneBook[id].numberPhone.homePhone,phoneBook[id].numberPhone.workPhone,phoneBook[id].email,phoneBook[id].socialNetwork.facebook,phoneBook[id].socialNetwork.ok,phoneBook[id].socialNetwork.vkontakte);
 }
-void ChangeContact(struct Person phoneBook[N]){
+void EditContact(Person phoneBook[N]){
     int id = FindContactId(phoneBook) - 1;
     if(id == -1) return;
     PrintContactId(phoneBook,id);
@@ -102,37 +154,40 @@ void ChangeContact(struct Person phoneBook[N]){
         scanf("%s", &phoneBook[id].post);
         break;
     case 5:
-        scanf("%s", &phoneBook[id].numberPhone);
+        EditMobilePhone(phoneBook,id);
         break;
     case 6:
         scanf("%s", &phoneBook[id].email);
         break;
     case 7:
-        scanf("%s", &phoneBook[id].socialNetwork);
+        EditSocialNetwork(phoneBook,id);
         break;
     default:
         break;
     }
 }
-void DeleteContact(struct Person phoneBook[N]){
+void DeleteContact(Person phoneBook[N]){
     int id = FindContactId(phoneBook) - 1;
     if(id == -1) return;
     memset(phoneBook[id].name,0,N);
     memset(phoneBook[id].surname,0,N);
     memset(phoneBook[id].patronymic,0,N);
     memset(phoneBook[id].post,0,N);
-    memset(phoneBook[id].numberPhone,0,N);
+    memset(phoneBook[id].numberPhone.homePhone,0,N);
+    memset(phoneBook[id].numberPhone.workPhone,0,N);
     memset(phoneBook[id].email,0,N);
-    memset(phoneBook[id].socialNetwork,0,N);
+    memset(phoneBook[id].socialNetwork.facebook,0,N);
+    memset(phoneBook[id].socialNetwork.ok,0,N);
+    memset(phoneBook[id].socialNetwork.vkontakte,0,N);
     phoneBook[id].id = 0;
 }
-void PrintIndividualContact(struct Person phoneBook[N]){
+void PrintIndividualContact(Person phoneBook[N]){
     int id = FindContactId(phoneBook) - 1;
     if(id == -1) return;
     PrintContactId(phoneBook,id);
 }
 int main(void){
-    struct Person phoneBook[N];
+    Person phoneBook[N];
     int tmp;
     int flag = 1;
     while(flag){
@@ -151,7 +206,7 @@ int main(void){
             flag = false;
             break;
         case 4:
-            ChangeContact(phoneBook);
+            EditContact(phoneBook);
             break;
         case 5:
             DeleteContact(phoneBook);
