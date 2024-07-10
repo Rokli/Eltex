@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #define true 1
 #define false 0
 #define N 512
@@ -120,6 +121,10 @@ void DeleteContact(struct Person phoneBook[N]){
     memset(phoneBook[id].name,0,N);
     memset(phoneBook[id].surname,0,N);
     memset(phoneBook[id].patronymic,0,N);
+    memset(phoneBook[id].post,0,N);
+    memset(phoneBook[id].numberPhone,0,N);
+    memset(phoneBook[id].email,0,N);
+    memset(phoneBook[id].socialNetwork,0,N);
     phoneBook[id].id = 0;
 }
 void PrintIndividualContact(struct Person phoneBook[N]){
