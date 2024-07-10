@@ -74,8 +74,9 @@ void PrintContact(struct Person phoneBook[]){
                                             ,phoneBook[id].post,phoneBook[id].numberPhone,phoneBook[id].email,phoneBook[id].socialNetwork);
 }
 void PrintContactId(struct Person phoneBook[], int id){
-    printf("%d\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",phoneBook[id].id,phoneBook[id].name,phoneBook[id].surname,phoneBook[id].patronymic
-                                            ,phoneBook[id].post,phoneBook[id].numberPhone,phoneBook[id].email,phoneBook[id].socialNetwork);
+    printf("ID:%d\nИмя:%s\nФамилия:%s\nОтчество%s\nДолжность:%s\nНомер телефона:%s\nЭлектронная почта:%s\nСоциальная сеть:%s\n",
+    phoneBook[id].id,phoneBook[id].name,phoneBook[id].surname,phoneBook[id].patronymic
+    ,phoneBook[id].post,phoneBook[id].numberPhone,phoneBook[id].email,phoneBook[id].socialNetwork);
 }
 void ChangeContact(struct Person phoneBook[N]){
     int id = FindContactId(phoneBook) - 1;
@@ -121,12 +122,17 @@ void DeleteContact(struct Person phoneBook[N]){
     memset(phoneBook[id].patronymic,0,N);
     phoneBook[id].id = 0;
 }
+void PrintIndividualContact(struct Person phoneBook[N]){
+    int id = FindContactId(phoneBook) - 1;
+    if(id == -1) return;
+    PrintContactId(phoneBook,id);
+}
 int main(void){
     struct Person phoneBook[N];
     int tmp;
     int flag = 1;
     while(flag){
-        printf("1 - Добавить пользователя\t2 - Вывести список пользователей\n3 - Выйти из телефонной книги\t4 - Редактировать контакт\n5 - Удалить контакт\n");
+        printf("1 - Добавить пользователя\t2 - Вывести список пользователей\n3 - Выйти из телефонной книги\t4 - Редактировать контакт\n5 - Удалить контакт\t6 - Вывести информацию про отдельного пользователя\n");
         scanf("%d", &tmp);
         getchar();
         switch (tmp)
@@ -146,6 +152,9 @@ int main(void){
         case 5:
             DeleteContact(phoneBook);
             break;
+        case 6:
+            PrintIndividualContact(phoneBook);
+            break;    
         default:
             break;
         }
