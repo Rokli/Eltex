@@ -1,6 +1,15 @@
 {
     "files.associations": {
-        "typeinfo": "c"
+        "typeinfo": "c",
+        "stdio.h": "c",
+        "string.h": "c",
+        "stdlib.h": "c",
+        "mobilephone.h": "c",
+        "socialnetwork.h": "c",
+        "person.h": "c",
+        "contact.h": "c",
+        "workwithoperations.h": "c"
     },
-    "C_Cpp.errorSquiggles": "disabled"
+    "C_Cpp.errorSquiggles": "disabled",
+    "C_Cpp.dimInactiveRegions": false
 }
