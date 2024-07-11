@@ -2,14 +2,15 @@
 #define operations_h
 
 #include <stdio.h>
+#include <stdarg.h>
 
 
-int Summ(int x, int y);
+double Summ( int count, double numbers[] );
 
-int Difference(int x, int y);
+double Difference( int count, double numbers[] );
 
-int Multiplication(int x, int y);
+double Multiplication( int count, double numbers[] );
 
-int Division(int x, int y);
+double Division( int count, double numbers[] );
 
 #endif

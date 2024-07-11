@@ -1,16 +1,44 @@
 #include "Operations.h"
 
-int Summ(int x, int y){
-    return x+y;
+double Summ(int count, double numbers[] ){
+    int result = 0;
+
+    for(int i = 0; i < count; i++){
+        result += numbers[i];
+    }
+
+    return result;
 }
 
-int Difference(int x, int y){
-    return x-y;
+double Difference(int count, double numbers[]){
+    int result = 0;
+
+    for(int i = 0; i < count; i++){
+        result -= numbers[i];
+    }
+
+    return result;
 }   
 
-int Multiplication(int x, int y){
-    return x*y;
+double Multiplication(int count, double numbers[]){
+    int result = numbers[0];
+
+    for(int i = 1; i < count; i++){
+        result *= numbers[i];
+    }
+
+    return result;
 }
-int Division(int x, int y){
-    return x/y;
+double Division(int count, double numbers[]){
+    int result = numbers[0];
+    
+    for(int i = 1; i < count; i++){
+        if(numbers[i] == 0){
+            printf("На ноль делить нельзя, деление прекращено\n");
+            break;
+        }
+        result /= numbers[i];
+    }
+
+    return result;
 }
