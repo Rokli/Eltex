@@ -1,7 +1,7 @@
 #include "Operations.h"
 
 int Summ(int x, int y){
-    return x+y
+    return x+y;
 }
 
 int Difference(int x, int y){

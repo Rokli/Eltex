@@ -1,2 +1,2 @@
 all:
-	gcc main.c Models/Operations.c -o a
+	gcc main.c Models/Operations.c Models/WorkWithOperations.c -o a

@@ -1,8 +1,8 @@
 #include <stdio.h>
-#include "Models/Operations.h"
+#include "Models/WorkWithOperations.h"
 
 
 int main(){
-    
+    Menu();
     return 0;
 }
