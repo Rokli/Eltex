@@ -8,7 +8,9 @@
         "socialnetwork.h": "c",
         "person.h": "c",
         "contact.h": "c",
-        "workwithoperations.h": "c"
+        "workwithoperations.h": "c",
+        "operations.h": "c",
+        "limits": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "C_Cpp.dimInactiveRegions": false
