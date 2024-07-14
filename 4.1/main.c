@@ -29,16 +29,16 @@ int main(){
         case 4:
             EditContact(phoneBook);
             break;
-        // case 5:
-        //     DeleteContact(phoneBook);
-        //     break;
-        // case 6:
-        //     PrintIndividualContact(phoneBook);
-        //     break;    
+        case 5:
+            DeleteContact(phoneBook);
+            break;
+        case 6:
+            PrintIndividualContact(phoneBook);
+            break;    
         default:
             break;
         }
     }
-
+    DeleteList(&phoneBook);
     return 0;
 }

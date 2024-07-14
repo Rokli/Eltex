@@ -9,4 +9,10 @@ void PrintPhoneBook(List *phoneBook);
 
 void EditContact(List *phoneBook);
 
+void EditContact(List *phoneBook);
+
+void DeleteContact(List *phoneBook);
+
+void PrintIndividualContact(List* phoneBook);
+
 #endif

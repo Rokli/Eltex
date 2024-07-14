@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 typedef struct _Node {
+    unsigned int id;
     Person value;
     struct _Node *next;
     struct _Node *prev; 
@@ -20,21 +21,16 @@ List* CreateList();
 
 void DeleteList(List **list);
 
-void pushFront(List *list, Person data);
-
-Person popFront(List *list);
-
 void pushBack(List *list, Person value);
 
-Person popBack(List *list);
+Node* getNth(List *list, int index);
 
-Node* getNth(List *list, size_t index);
+Person deleteNth(List *list, int index);
 
-void insert(List *list, size_t index, Person value);
-
-Person deleteNth(List *list, size_t index);
+unsigned int findId(List *list);
 
 void printInt(Person person);
 
 void printList(List *list, void (*fun)(Person));
+
 #endif

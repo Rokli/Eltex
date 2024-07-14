@@ -35,4 +35,5 @@ void AddPerson(Person phoneBook[N]);
 void EditMobilePhone(Person phoneBook[N],int id);
 
 void EditSocialNetwork(Person phoneBook[N],int id);
+
 #endif  

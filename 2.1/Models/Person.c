@@ -4,14 +4,14 @@ Person CreatePerson() {
     Person person;
 
     printf("Введите имя:");
-    scanf("%s", person.name);
+    scanf("%s", &person.name);
 
     printf("Введите фамилию:");
-    scanf("%s", person.surname);
+    scanf("%s", &person.surname);
 
     printf("Введите отчество:");
-    scanf("%s", person.patronymic);
-
+    scanf("%s", &person.patronymic);
+    
     return person;
 }
 

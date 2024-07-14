@@ -47,15 +47,15 @@ Person EditSocialNetworks(Person person){
     
     printf("Введите какой хотите изменить:");
     int tmp;
-    scanf("%d\n", &tmp);
+    scanf("%d", &tmp);
 
     if( 0 <= tmp < 5){
 
         printf("Введите имя:");
-        scanf("%s\n",&person.socialNetwork[tmp].name);
+        scanf("%s",&person.socialNetwork[tmp].name);
 
         printf("Введите адрес:");
-        scanf("%s\n",&person.socialNetwork[tmp].address);
+        scanf("%s",&person.socialNetwork[tmp].address);
     }else{
         printf("Нет такой социальной сети\n");
     }
@@ -69,15 +69,17 @@ Person EditPerson(Person person){
     
     printf("Социальные сети:\n");
     for(int i = 0; i < 5; i++){
-        printf("%d:%s,%s\n",i+1,person.socialNetwork[i].name,person.socialNetwork[i].address);
+        printf("%d:%s,%s",i+1,person.socialNetwork[i].name,person.socialNetwork[i].address);
     }
 
     
-    printf("1 - Изменить имя\n2 - Изменить фамилию\n3 - Изменить Отчество\n4 - Изменить должность\n5 - Изменить номер телефона\n6 - Изменить почту\n7 - Изменить социальные сети\n");
+    printf("\n1 - Изменить имя\n2 - Изменить фамилию\n3 - Изменить Отчество\n4 - Изменить должность\n5 - Изменить номер телефона\n6 - Изменить почту\n7 - Изменить социальные сети\n");
     int tmp;
     scanf("%d", &tmp);
     getchar();
-    printf("Введите новое значение:");
+
+    if( tmp != 7 || tmp != 5)printf("Введите новое значение:");
+    
     switch (tmp)
     {
     case 1:
