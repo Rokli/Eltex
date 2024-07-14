@@ -28,7 +28,7 @@ typedef struct {
     socialNetwork socialNetwork[MAX_LENGTH_STRUCT];
 } Person;
 
-Person CreatePerson(Person person);
+Person CreatePerson();
 
 Person EditNumberPhone(Person person);
 

@@ -40,9 +40,9 @@ void pushFront(List *list, Person data) {
     list->size++;
 }
 
-void* popFront(List *list) {
+Person popFront(List *list) {
     Node *prev;
-    void *tmp;
+    Person tmp;
     if (list->head == NULL) {
         exit(2);
     }
@@ -81,9 +81,9 @@ void pushBack(List *list, Person value) {
     list->size++;
 }
  
-void* popBack(List *list) {
+Person popBack(List *list) {
     Node *next;
-    void *tmp;
+    Person tmp;
     if (list->tail == NULL) {
         exit(4);
     }
@@ -141,9 +141,9 @@ void insert(List *list, size_t index, Person value) {
     list->size++;
 }
  
-void* deleteNth(DblLinkedList *list, size_t index) {
+Person deleteNth(List *list, size_t index) {
     Node *elm = NULL;
-    void *tmp = NULL;
+    Person tmp;
     elm = getNth(list, index);
     if (elm == NULL) {
         exit(5);
@@ -168,4 +168,24 @@ void* deleteNth(DblLinkedList *list, size_t index) {
     list->size--;
  
     return tmp;
+}
+
+void printInt(Person person) {
+    printf("Имя:%s\nФамилия:%s\nОтчество:%s\nДолжность:%s\nДомашний номер:%s\nРабочий номер:%s\nПочта:%s\n",
+        person.name,person.surname,person.patronymic,person.post,person.numberPhone.homePhone,person.numberPhone.workPhone,person.email);
+    
+    printf("Социальные сети:\n");
+    for(int i = 0; i < 5; i++){
+        printf("%d:%s,%s\n",i+1,person.socialNetwork[i].name,person.socialNetwork[i].address);
+    }
+}
+
+void printList(List *list, void (*fun)(Person)) {
+    Node *tmp = list->head;
+    while (tmp) {
+        printf("ID:%d\n",*((int*) &tmp->value));
+        fun(tmp->value);
+        tmp = tmp->next;
+    }
+    printf("\n");
 }

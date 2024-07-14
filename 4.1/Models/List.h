@@ -22,15 +22,19 @@ void DeleteList(List **list);
 
 void pushFront(List *list, Person data);
 
-void* popFront(List *list);
+Person popFront(List *list);
 
 void pushBack(List *list, Person value);
 
-void* popBack(List *list);
+Person popBack(List *list);
 
 Node* getNth(List *list, size_t index);
 
 void insert(List *list, size_t index, Person value);
 
-void* deleteNth(DblLinkedList *list, size_t index);
+Person deleteNth(List *list, size_t index);
+
+void printInt(Person person);
+
+void printList(List *list, void (*fun)(Person));
 #endif

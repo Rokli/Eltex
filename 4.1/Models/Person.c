@@ -1,16 +1,18 @@
 #include "Person.h"
 
 
-Person CreatePerson(Person person){
+Person CreatePerson(){
+
+    Person person;
 
     printf("Введите имя:");
-    scanf("%s\n",&person.name);
+    scanf("%s",&person.name);
 
     printf("Введите фамилию:");
-    scanf("%s\n",&person.surname);
+    scanf("%s",&person.surname);
 
     printf("Введите отчество:");
-    scanf("%s\n",&person.patronymic);
+    scanf("%s",&person.patronymic);
 
     return person;
 }
@@ -50,10 +52,10 @@ Person EditSocialNetworks(Person person){
     if( 0 <= tmp < 5){
 
         printf("Введите имя:");
-        scanf("%s\n",&person.socialNetwork[i].name);
+        scanf("%s\n",&person.socialNetwork[tmp].name);
 
         printf("Введите адрес:");
-        scanf("%s\n",&person.socialNetwork[i].address);
+        scanf("%s\n",&person.socialNetwork[tmp].address);
     }else{
         printf("Нет такой социальной сети\n");
     }
