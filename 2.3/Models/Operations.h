@@ -10,7 +10,7 @@ typedef double (*operationFunc)(int amount, ...);
 
 
 typedef struct{
-    char name[MAX_LENGTH];
+    char name[MAX_LENGTH_CHAR];
     operationFunc func;
 }operationStruct;
 

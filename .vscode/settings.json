@@ -10,7 +10,10 @@
         "contact.h": "c",
         "workwithoperations.h": "c",
         "operations.h": "c",
-        "limits": "c"
+        "limits": "c",
+        "workwithip.h": "c",
+        "stdint.h": "c",
+        "list.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "C_Cpp.dimInactiveRegions": false
