@@ -12,7 +12,6 @@ typedef struct _Node {
 } Node;
 
 typedef struct List {
-    size_t size;
     Node *head;
     Node *tail;
 } List;

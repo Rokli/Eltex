@@ -3,7 +3,6 @@
 List* CreateList() {
 
     List *tmp = (List*) malloc(sizeof(List));
-    tmp->size = 0;
     tmp->head = tmp->tail = NULL;
 
     return tmp;
@@ -39,7 +38,6 @@ void pushBack(List *list, Person value) {
         list->head = tmp;
     }
     tmp->id = findId(list);
-    list->size++;
 }
 
 unsigned int findId(List *list){
@@ -69,6 +67,10 @@ Person deleteNth(List *list, int index) {
     Node *elm = NULL;
     Person tmp;
     elm = getNth(list, index);
+
+    if(elm->id != 0){
+        elm->next->id--;
+    }
     if (elm == NULL) {
         exit(5);
     }
@@ -86,10 +88,7 @@ Person deleteNth(List *list, int index) {
     if (!elm->next) {
         list->tail = elm->prev;
     }
- 
     free(elm);
- 
-    list->size--;
  
     return tmp;
 }
