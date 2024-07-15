@@ -1,2 +1,2 @@
 all:
-	gcc main.c -o a
+	gcc main.c Models/Queue.c -o a

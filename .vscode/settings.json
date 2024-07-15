@@ -13,7 +13,11 @@
         "limits": "c",
         "workwithip.h": "c",
         "stdint.h": "c",
-        "list.h": "c"
+        "list.h": "c",
+        "cstdlib": "c",
+        "queue.h": "c",
+        "type_traits": "c",
+        "utility": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "C_Cpp.dimInactiveRegions": false
