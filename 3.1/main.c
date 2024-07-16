@@ -1,33 +1,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <string.h>
 
-#define MAX_LENTGH 128
+#define MAX_LENTGH 32
 #define false 0
 #define true 1
-void displayPermissions(mode_t permissions) {
+void displayPermissions(mode_t currentMode) {
 
-    printf("Численное представление прав доступа:%o\n", permissions & 0777);
+    printf("Численное представление прав доступа:%o\n", currentMode & 0777);
     
     printf("Битовое представление прав доступа:");
 
-    for (int i = 8; i >= 0; i--) {
-    printf("%d", (permissions >> i) & 1);
-    }
+    for (int i = 8; i >= 0; i--)
+        printf("%u", ((currentMode & 0777) >> i) & 1);
+    printf("\n");
 
     printf("\n");
 
     printf("Буквенное представление прав доступа:");
 
-    printf((permissions & S_IRUSR) ? "r" : "-");
-    printf((permissions & S_IWUSR) ? "w" : "-");
-    printf((permissions & S_IXUSR) ? "x" : "-");
-    printf((permissions & S_IRGRP) ? "r" : "-");
-    printf((permissions & S_IWGRP) ? "w" : "-");
-    printf((permissions & S_IXGRP) ? "x" : "-");
-    printf((permissions & S_IROTH) ? "r" : "-");
-    printf((permissions & S_IWOTH) ? "w" : "-");
-    printf((permissions & S_IXOTH) ? "x" : "-");
+    printf((currentMode & S_IRUSR) ? "r" : "-");
+    printf((currentMode & S_IWUSR) ? "w" : "-");
+    printf((currentMode & S_IXUSR) ? "x" : "-");
+    printf((currentMode & S_IRGRP) ? "r" : "-");
+    printf((currentMode & S_IWGRP) ? "w" : "-");
+    printf((currentMode & S_IXGRP) ? "x" : "-");
+    printf((currentMode & S_IROTH) ? "r" : "-");
+    printf((currentMode & S_IWOTH) ? "w" : "-");
+    printf((currentMode & S_IXOTH) ? "x" : "-");
     printf("\n");
 }
 
@@ -60,7 +61,6 @@ mode_t ConvertMode(mode_t currentMode, char target, char operation,char action){
             currentMode  |= mask;
             break;
         case '-':
-            printf("23");
             currentMode  &= ~mask;
             break;
         case '=':
@@ -78,6 +78,38 @@ mode_t ConvertMode(mode_t currentMode, char target, char operation,char action){
     }
     return currentMode;
 }
+
+mode_t stringDivide(mode_t currentMode){
+    char signatureTarget[MAX_LENTGH], signatureOperation[MAX_LENTGH], signatureAction[MAX_LENTGH];
+
+    printf("Введите тип пользователя:");
+    scanf("%s",&signatureTarget);
+    
+    printf("Введите тип операции:");
+    scanf("%s",&signatureOperation);
+
+    printf("Введите тип прав:");
+    scanf("%s",&signatureAction);
+
+
+    for(int i = 0; i < strlen(signatureTarget); i++){
+
+        printf("%d",strlen(signatureTarget));
+
+        if(strlen(signatureTarget) == 0) break;
+        
+        for(int j = 0; j < strlen(signatureAction); j++){
+
+            if(strlen(signatureAction) == 0) break;
+
+            currentMode = ConvertMode(currentMode,signatureTarget[i],signatureOperation[0],signatureAction[j]);
+            
+        }
+    }
+
+    return currentMode;
+}
+
 int main(){
     struct stat fileStat;
     char filename[MAX_LENTGH];
@@ -93,21 +125,14 @@ int main(){
     int flag = true;
 
     while(flag){
-        printf("\nВыберите действие:\n1 - Ввести права доступа в буквенном или цифровом обозначении\n2 - Изменить права доступа\n3 - Вывести права\n4 - Выйти из программы\n");
+        printf("\nВыберите действие:\n1 - Ввести права доступа в буквенном обозначении\n2 - Изменить права доступа\n3 - Вывести права\n4 - Выйти из программы\n");
         
         int choice;
         scanf("%d", &choice);
 
         switch (choice) {
             case 1: 
-                char permissions,target = 'u',operation = '-',action = 'r';
-                printf("Введите новые права доступа: ");
-                scanf("%c", &target);
-                // printf("F:");
-                // scanf("%c", &operation);
-                // printf("F:");
-                // scanf("%c", &action);
-                currentMode = ConvertMode(currentMode,target,operation,action);
+                currentMode = stringDivide(currentMode);
                 break;
             case 2: 
                 break;
