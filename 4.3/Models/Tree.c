@@ -1,111 +1,98 @@
 #include "Tree.h"
 
-Tree* getFreeTree(int value, Tree *parent) {
+
+Tree *getTreeNode(int value) {
+
+    Person person = CreatePerson();
     Tree* tmp = (Tree*) malloc(sizeof(Tree));
+
     tmp->left = tmp->right = NULL;
     tmp->data = value;
-    tmp->parent = parent;
+    tmp->_person = person;
+
     return tmp;
 }
 
-void insert(Tree **head, int value) {
-    Tree *tmp = NULL;
-    Tree *ins = NULL;
-    if (*head == NULL) {
-        *head = getFreeTree(value, NULL);
-        return;
-    }
-     
-    tmp = *head;
-    while (tmp) {
-        if (CMP_GT(value, tmp->data)) {
-            if (tmp->right) {
-                tmp = tmp->right;
-                continue;
-            } else {
-                tmp->right = getFreeTree(value, tmp);
-                return;
-            }
-        } else if (CMP_LT(value, tmp->data)) {
-            if (tmp->left) {
-                tmp = tmp->left;
-                continue;
-            } else {
-                tmp->left = getFreeTree(value, tmp);
-                return;
-            }
-        } else {
-            exit(2);
-        }
-    }
-}
+Tree* insert(Tree *root,int value) {
 
-Tree* getMinTree(Tree *root) {
-    while (root->left) {
-        root = root->left;
+    if (root == NULL) {
+        return getTreeNode(value);
     }
-    return root;
-}
-
-Tree* getMaxTree(Tree *root) {
-    while (root->right) {
-        root = root->right;
-    }
-    return root;
-}
-
-Tree *getTreeByValue(Tree *root, int value) {
-    while (root) {
-        if (CMP_GT(root->data, value)) {
-            root = root->left;
-            continue;
-        } else if (CMP_LT(root->data, value)) {
-            root = root->right;
-            continue;
-        } else {
-            return root;
-        }
-    }
-    return NULL;
-}
-
-void removeTreeByPtr(Tree *target) {
-    if (target->left && target->right) {
-        Tree *localMax = getMaxTree(target->left);
-        target->data = localMax->data;
-        removeTreeByPtr(localMax);
-        return;
-    } else if (target->left) {
-        if (target == target->parent->left) {
-            target->parent->left = target->left;
-        } else {
-            target->parent->right = target->left;
-        }
-    } else if (target->right) {
-        if (target == target->parent->right) {
-            target->parent->right = target->right;
-        } else {
-            target->parent->left = target->right;
-        }
+    if (CMP_RT(root->data, value)) {
+        root->left = insert(root->left, value);
+        return root;
+    } else if (CMP_LT(root->data, value)) {
+        root->right = insert(root->right, value);
+        return root;
     } else {
-        if (target == target->parent->left) {
-            target->parent->left = NULL;
+        exit(3);
+    }
+
+}
+
+
+Tree* findMax(Tree *root) {
+    if (root == NULL) {
+        exit(4);
+    }
+    if (root->right) {
+        return findMax(root->right);
+    }
+    return root;
+}
+ 
+Tree* findMin(Tree* root) {
+    if (root == NULL) {
+        exit(3);
+    }
+    if (root->left) {
+        return findMin(root->left);
+    }
+    return root;
+}
+
+
+Tree* deletePerson(Tree* root, int value) {
+    if (root == NULL) {
+        return NULL;
+    }
+    if (CMP_RT(root->data, value)) {
+        root->left = deletePerson(root->left, value);
+        return root;
+    } else if (CMP_LT(root->data, value)) {
+        root->right = deletePerson(root->right, value);
+        return root;
+    } else {
+        if (root->left && root->right) {
+            Tree* locMax = findMax(root->left);
+            root->data = locMax->data;
+            root->left = deletePerson(root->left, locMax->data); 
+            return root;
+        } else if (root->left) {
+            Tree *tmp = root->left;
+            free(root);
+            return tmp;
+        } else if (root->right) {
+            Tree *tmp = root->right;
+            free(root);
+            return tmp;
         } else {
-            target->parent->right = NULL;
+            free(root);
+            return NULL;
         }
+         
     }
-    free(target);
 }
-
-void deleteValue(Tree *root, int value) {
-    Tree *target = getTreeByValue(root, value);
-    removeTreeByPtr(target);
-}
-
-void printTree(Tree *root, const char *dir, int level){
+void preOrderTravers(Tree* root) {
     if (root) {
-        printf("lvl %d %s = %d\n", level, dir, root->data);
-        printTree(root->left, "left", level+1);
-        printTree(root->right, "right", level+1);
+        printNode(root);
+        preOrderTravers(root->left);
+        preOrderTravers(root->right);
     }
+}
+void printNode(Tree *current) {
+    printf("%d\n", current->data);
+    printf("----------\n");
+    printPerson(current->_person);
+    printf("----------\n");
 }

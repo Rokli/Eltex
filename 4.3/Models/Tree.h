@@ -3,32 +3,32 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include "Person.h"
 
 #define CMP_EQ(a, b) ((a) == (b))
 #define CMP_LT(a, b) ((a) < (b))
-#define CMP_GT(a, b) ((a) > (b))
- 
+#define CMP_RT(a, b) ((a) > (b))
+
 typedef struct Tree {
     int data;
+    Person _person;
     struct Tree *left;
     struct Tree *right;
-    struct Tree *parent;
 } Tree;
 
-Tree* getFreeTree(int value, Tree *parent);
+Tree *getTreeNode(int value);
 
-void insert(Tree **head, int value);
+Tree* insert(Tree *root,int value);
 
-Tree* getMinTree(Tree *root);
+Tree* findMax(Tree *root);
 
-Tree* getMaxTree(Tree *root);
+Tree* findMin(Tree* root);
 
-Tree *getTreeByValue(Tree *root, int value);
+Tree* deletePerson(Tree* root, int value);
 
-void removeTreeByPtr(Tree *target);
+void printNode(Tree *current);
 
-void deleteValue(Tree *root, int value);
+void preOrderTravers(Tree* root);
 
-void printTree(Tree *root, const char *dir, int level);
 
 #endif

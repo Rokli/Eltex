@@ -110,3 +110,13 @@ Person EditPerson(Person person){
 
     return person;
 }
+
+void printPerson(Person person) {
+    printf("Имя:%s\nФамилия:%s\nОтчество:%s\nДолжность:%s\nДомашний номер:%s\nРабочий номер:%s\nПочта:%s\n",
+        person.name,person.surname,person.patronymic,person.post,person.numberPhone.homePhone,person.numberPhone.workPhone,person.email);
+    
+    printf("Социальные сети:\n");
+    for(int i = 0; i < 5; i++){
+        printf("%d:%s,%s\n",i+1,person.socialNetwork[i].name,person.socialNetwork[i].address);
+    }
+}

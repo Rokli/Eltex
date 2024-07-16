@@ -36,4 +36,6 @@ Person EditSocialNetworks(Person person);
 
 Person EditPerson(Person person);
 
+void printPerson(Person person);
+
 #endif
