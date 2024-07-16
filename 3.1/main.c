@@ -133,7 +133,6 @@ void convertLetters(){
             }
         }
     }
-    printf("Битовое представление: ");
     displayPermissions(permission);
 }
 int main(){

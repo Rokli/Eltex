@@ -1,2 +1,2 @@
 all:
-	gcc main.c -o a -L. -ldynamic
+	gcc main.c 

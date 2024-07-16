@@ -16,7 +16,7 @@ int getMessageMinPriority(Queue* head, int priority){
         } 
         head = head->next;
     }
-
+    
     return priority;
 }
 
