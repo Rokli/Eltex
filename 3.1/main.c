@@ -6,6 +6,7 @@
 #define MAX_LENTGH 32
 #define false 0
 #define true 1
+
 void displayPermissions(mode_t currentMode) {
 
     printf("Численное представление прав доступа:%o\n", currentMode & 0777);
@@ -14,8 +15,6 @@ void displayPermissions(mode_t currentMode) {
 
     for (int i = 8; i >= 0; i--)
         printf("%u", ((currentMode & 0777) >> i) & 1);
-    printf("\n");
-
     printf("\n");
 
     printf("Буквенное представление прав доступа:");
@@ -103,13 +102,40 @@ mode_t stringDivide(mode_t currentMode){
             if(strlen(signatureAction) == 0) break;
 
             currentMode = ConvertMode(currentMode,signatureTarget[i],signatureOperation[0],signatureAction[j]);
-            
+
         }
     }
 
     return currentMode;
 }
 
+
+void convertLetters(){
+    char access[MAX_LENTGH];
+    unsigned int permission = 0;
+
+    printf("Введите права доступа (буквенное или цифровое обозначение): ");
+    scanf("%s", access);
+    printf("\n");
+
+    if (access[0] >= '0' && access[0] <= '7') {
+        sscanf(access, "%o", &permission);
+    } else {
+        for(int i = 0; i < strlen(access); i++){
+            if (access[i] == 'r') {
+                permission |= 4;
+            }
+            if (access[i] == 'w') {
+                permission |= 2;
+            }
+            if (access[i] == 'x') {
+                permission |= 1;
+            }
+        }
+    }
+    printf("Битовое представление: ");
+    displayPermissions(permission);
+}
 int main(){
     struct stat fileStat;
     char filename[MAX_LENTGH];
@@ -125,7 +151,7 @@ int main(){
     int flag = true;
 
     while(flag){
-        printf("\nВыберите действие:\n1 - Ввести права доступа в буквенном обозначении\n2 - Изменить права доступа\n3 - Вывести права\n4 - Выйти из программы\n");
+        printf("\nВыберите действие:\n1 - Изменить права доступа файла\n2 - Ввести права доступа\n3 - Вывести права\n4 - Выйти из программы\n");
         
         int choice;
         scanf("%d", &choice);
@@ -135,6 +161,7 @@ int main(){
                 currentMode = stringDivide(currentMode);
                 break;
             case 2: 
+                convertLetters();
                 break;
             case 3:
                 displayPermissions(currentMode);
