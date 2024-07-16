@@ -24,11 +24,14 @@ Tree* findMax(Tree *root);
 
 Tree* findMin(Tree* root);
 
-Tree* deletePerson(Tree* root, int value);
+Tree* deleteNode(Tree* root, int value);
+
+void printOneNode(Tree* root, int value);
 
 void printNode(Tree *current);
 
 void preOrderTravers(Tree* root);
 
+Tree* editNode(Tree* root, int value);
 
 #endif

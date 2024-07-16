@@ -30,6 +30,33 @@ Tree* insert(Tree *root,int value) {
 
 }
 
+Tree* editNode(Tree* root, int value){
+    if (!root) {
+        return NULL;
+    }
+    if (CMP_RT(root->data, value)) {
+        editNode(root->left, value);
+    } else if (CMP_LT(root->data, value)) {
+        editNode(root->right, value);
+    } else {
+        root->_person = EditPerson(root->_person);
+        return root;
+    }
+}
+
+void printOneNode(Tree* root, int value){
+    if (!root) {
+        return;
+    }
+    if (CMP_RT(root->data, value)) {
+        editNode(root->left, value);
+    } else if (CMP_LT(root->data, value)) {
+        editNode(root->right, value);
+    } else {
+        printNode(root);
+        return;
+    }
+}
 
 Tree* findMax(Tree *root) {
     if (root == NULL) {
@@ -52,21 +79,21 @@ Tree* findMin(Tree* root) {
 }
 
 
-Tree* deletePerson(Tree* root, int value) {
+Tree* deleteNode(Tree* root, int value) {
     if (root == NULL) {
         return NULL;
     }
     if (CMP_RT(root->data, value)) {
-        root->left = deletePerson(root->left, value);
+        root->left = deleteNode(root->left, value);
         return root;
     } else if (CMP_LT(root->data, value)) {
-        root->right = deletePerson(root->right, value);
+        root->right = deleteNode(root->right, value);
         return root;
     } else {
         if (root->left && root->right) {
             Tree* locMax = findMax(root->left);
             root->data = locMax->data;
-            root->left = deletePerson(root->left, locMax->data); 
+            root->left = deleteNode(root->left, locMax->data); 
             return root;
         } else if (root->left) {
             Tree *tmp = root->left;
@@ -91,8 +118,8 @@ void preOrderTravers(Tree* root) {
     }
 }
 void printNode(Tree *current) {
-    printf("%d\n", current->data);
     printf("----------\n");
+    printf("ID:%d\n", current->data);
     printPerson(current->_person);
     printf("----------\n");
 }

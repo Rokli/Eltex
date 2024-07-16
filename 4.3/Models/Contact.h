@@ -3,16 +3,14 @@
 
 #include "Tree.h"
 
-void AddPerson(Tree **tree);
+void AddPerson(Tree **phoneBook);
 
-void PrintPhoneBook(Tree *tree);
+void PrintPhoneBook(Tree *phoneBook);
 
-void EditContact(Tree *tree);
+void EditContact(Tree **phoneBook);
 
-void EditContact(Tree *tree);
+void DeleteContact(Tree **phoneBook);
 
-void DeleteContact(Tree *tree);
-
-void PrintIndividualContact(Tree* tree);
+void PrintIndividualContact(Tree* phoneBook);
 
 #endif

@@ -5,7 +5,7 @@
 
 int main(){
 
-    Tree *tree = NULL;
+    Tree *phoneBook = NULL;
     int flag = true;
 
     while(flag){
@@ -19,23 +19,23 @@ int main(){
         switch (tmp)
         {
             case 1:
-                AddPerson(&tree);
+                AddPerson(&phoneBook);
                 break;
             case 2:
-                PrintPhoneBook(tree);
+                PrintPhoneBook(phoneBook);
                 break;
-            // case 3:
-            //     flag = false;
-            //     break;
-            // case 4:
-            //     EditContact(phoneBook);
-            //     break;
-            // case 5:
-            //     DeleteContact(phoneBook);
-            //     break;
-            // case 6:
-            //     PrintIndividualContact(phoneBook);
-            //     break;    
+            case 3:
+                flag = false;
+                break;
+            case 4:
+                EditContact(&phoneBook);
+                break;
+            case 5:
+                DeleteContact(&phoneBook);
+                break;
+            case 6:
+                PrintIndividualContact(phoneBook);
+                break;    
             default:
                 break;
         }

@@ -1,23 +1,38 @@
 #include "Contact.h"
 
-void AddPerson(Tree **tree){
+void AddPerson(Tree **phoneBook){
 
     printf("Введите ID:");
     int id;
     scanf("%d",&id);
 
-    (*tree) = insert((*tree),id);
+   (*phoneBook) = insert((*phoneBook),id);
 }
 
-void PrintPhoneBook(Tree *tree){
-    preOrderTravers(tree);
+void PrintPhoneBook(Tree *phoneBook){
+    preOrderTravers(phoneBook);
 }   
 
-void EditContact(Tree *tree){
+void EditContact(Tree **phoneBook){
+    printf("Введите ID:");
+    int id;
+    scanf("%d",&id);
+
+    (*phoneBook) = editNode((*phoneBook),id);
 }
 
-void DeleteContact(Tree *tree){
+void DeleteContact(Tree **phoneBook){
+    printf("Введите ID:");
+    int id;
+    scanf("%d",&id);
+
+    (*phoneBook) = deleteNode((*phoneBook),id);
 }
 
-void PrintIndividualContact(Tree* tree){
+void PrintIndividualContact(Tree* phoneBook){
+    printf("Введите ID:");
+    int id;
+    scanf("%d",&id);
+
+    printOneNode(phoneBook,id);
 }
