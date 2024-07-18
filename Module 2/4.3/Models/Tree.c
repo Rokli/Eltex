@@ -78,7 +78,6 @@ Tree* findMin(Tree* root) {
     return root;
 }
 
-
 Tree* deleteNode(Tree* root, int value) {
     if (root == NULL) {
         return NULL;
@@ -110,6 +109,7 @@ Tree* deleteNode(Tree* root, int value) {
          
     }
 }
+
 void preOrderTravers(Tree* root) {
     if (root) {
         printNode(root);
@@ -117,9 +117,76 @@ void preOrderTravers(Tree* root) {
         preOrderTravers(root->right);
     }
 }
+
 void printNode(Tree *current) {
     printf("----------\n");
     printf("ID:%d\n", current->data);
     printPerson(current->_person);
     printf("----------\n");
 }
+
+void LeftRotation(Tree **root) {
+    Tree *parent = NULL,
+         *C = NULL,
+         *a = NULL, 
+         *b = NULL;
+ 
+    a = (*root);
+    parent = a->parent;
+    b = a->right;
+    if (b == NULL) {
+        return;
+    }
+    C = b->left;
+ 
+    b->left = a;
+    a->right = C;
+    if (C) {
+        C->parent = a;
+    }
+    b->parent = parent;
+    if (parent) {
+        if (parent->left == a) {
+            parent->left = b;
+        } else {
+            parent->right = b;
+        }
+    }
+    a->parent = b;
+    if (!parent) {
+        *root = (*root)->parent;
+    }
+}
+ 
+void RigthRotation(Tree **root) {
+    Tree *parent = NULL,
+         *C = NULL,
+         *a = NULL, 
+         *b = NULL;
+ 
+    b = (*root);
+    parent = b->parent;
+    a = b->left;
+    if (a == NULL) {
+        return;
+    }
+    C = a->right;
+ 
+    a->right = b;
+    b->left = C;
+    if (C) {
+        C->parent = b;
+    }
+    a->parent = parent;
+    if (parent) {
+        if (parent->left == b) {
+            parent->left = a;
+        } else {
+            parent->right = a;
+        }
+    }
+    b->parent = a;
+ 
+    *root = (*root)->parent;
+}
+

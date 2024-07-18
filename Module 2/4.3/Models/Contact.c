@@ -10,6 +10,8 @@ void AddPerson(Tree **phoneBook){
 }
 
 void PrintPhoneBook(Tree *phoneBook){
+    LeftRotation(&phoneBook);
+    RigthRotation(&phoneBook);
     preOrderTravers(phoneBook);
 }   
 

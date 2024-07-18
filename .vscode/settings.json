@@ -18,7 +18,14 @@
         "queue.h": "c",
         "type_traits": "c",
         "utility": "c",
-        "tree.h": "c"
+        "tree.h": "c",
+        "format": "c",
+        "array": "c",
+        "string": "c",
+        "string_view": "c",
+        "span": "c",
+        "dlfcn.h": "c",
+        "random": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "C_Cpp.dimInactiveRegions": false

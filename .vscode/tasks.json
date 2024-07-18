@@ -1,25 +1,23 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-      {
-        "label": "Build",
-        "type": "shell",
-        "command": "gcc",
-        "args": [
-          "${4.2/main.c}",
-          "${4.2/Queue.c}",
-          "-o",
-          "${fileDirname}/${fileBasenameNoExtension}"
-        ],
-        "group": {
-          "kind": "build",
-          "isDefault": true
-        },
-        "problemMatcher": [
-          "$gcc"
-        ]
-      }
-    ]
-  }
-   
-  
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build",
+      "type": "shell",
+      "command": "gcc",
+      "args": [
+        "${fileDirname}/4.1/main.c",
+        "${fileDirname}/4.1/Models/List.c",
+        "${fileDirname}/4.1/Models/Contact.c",
+        "${fileDirname}/4.1/Models/Person.c",
+        "-o",
+        "${fileDirname}/List"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$gcc"
+    }
+  ]
+}

@@ -14,6 +14,7 @@ typedef struct Tree {
     Person _person;
     struct Tree *left;
     struct Tree *right;
+    struct Tree *parent;
 } Tree;
 
 Tree *getTreeNode(int value);
@@ -33,5 +34,9 @@ void printNode(Tree *current);
 void preOrderTravers(Tree* root);
 
 Tree* editNode(Tree* root, int value);
+
+void RigthRotation(Tree **root);
+
+void LeftRotation(Tree **root);
 
 #endif
