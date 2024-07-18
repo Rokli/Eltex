@@ -3,11 +3,13 @@
 
 void AddPerson(List *phoneBook){
     Person person = CreatePerson();
-    pushBack(phoneBook,person);
+    pushFront(phoneBook,person);
+    
 }
 
 void PrintPhoneBook(List *phoneBook){
-    printList(phoneBook,printInt);
+    insertionSort(&phoneBook);
+    printList(phoneBook,printPerson);
 }   
 
 
@@ -39,5 +41,5 @@ void PrintIndividualContact(List* phoneBook){
 
     Node* tmp =  getNth(phoneBook,id);
     printf("ID:%d\n",tmp->id);
-    printInt(tmp->value);
+    printPerson(tmp->value);
 }

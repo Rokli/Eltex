@@ -28,8 +28,20 @@ Person deleteNth(List *list, int index);
 
 unsigned int findId(List *list);
 
-void printInt(Person person);
+void printPerson(Person person);
 
 void printList(List *list, void (*fun)(Person));
+
+void pushFront(List *list, Person data);
+
+void insertBeforeElement(List *list, Node* elm, Person value);
+
+int cmp (int idOne, int idTwo);
+
+void insertionSort(List **list);
+
+void freeList(List *list);
+
+Person popFront(List *list);
 
 #endif

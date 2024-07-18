@@ -42,13 +42,14 @@ void pushBack(List *list, Person value) {
 
 unsigned int findId(List *list){
     Node *tmp = list->head;
-    int id = 0;
-    while (tmp->next != NULL) {
+    unsigned int id = 0;
+    
+    while (tmp != NULL) {
         tmp = tmp->next;
         id++;
     }
  
-    return id;
+    return id; 
 }
 Node* getNth(List *list, int index) {
     Node *tmp = list->head;
@@ -93,7 +94,7 @@ Person deleteNth(List *list, int index) {
     return tmp;
 }
 
-void printInt(Person person) {
+void printPerson(Person person) {
     printf("Имя:%s\nФамилия:%s\nОтчество:%s\nДолжность:%s\nДомашний номер:%s\nРабочий номер:%s\nПочта:%s\n",
         person.name,person.surname,person.patronymic,person.post,person.numberPhone.homePhone,person.numberPhone.workPhone,person.email);
     
@@ -105,6 +106,7 @@ void printInt(Person person) {
 
 void printList(List *list, void (*fun)(Person)) {
     Node *tmp = list->head;
+    
     while (tmp) {
         printf("-------------\n");
         printf("ID:%d\n",tmp->id);
@@ -113,4 +115,101 @@ void printList(List *list, void (*fun)(Person)) {
         printf("-------------\n");
     }
     printf("\n");
+}
+
+void pushFront(List *list, Person data) {
+    Node *tmp = (Node*) malloc(sizeof(Node));
+    if (tmp == NULL) {
+        exit(1);
+    }
+    tmp->value = data;
+    tmp->id = findId(list);
+    tmp->next = list->head;
+    tmp->prev = NULL;
+    if (list->head) {
+        list->head->prev = tmp;
+    }
+    list->head = tmp;
+ 
+    if (list->tail == NULL) {
+        list->tail = tmp;
+    }
+
+}
+
+Person popFront(List *list) {
+    Node *prev;
+    Person tmp;
+    if (list->head == NULL) {
+        exit(2);
+    }
+ 
+    prev = list->head;
+    list->head = list->head->next;
+    if (list->head) {
+        list->head->prev = NULL;
+    }
+    if (prev == list->tail) {
+        list->tail = NULL;
+    }
+    tmp = prev->value;
+
+    free(prev);
+ 
+    return tmp;
+}
+
+void insertBeforeElement(List *list, Node* elm, Person value) {
+    if (elm == NULL) {
+        return;
+    }
+     
+    if (!elm->prev) {
+        pushFront(list, value);
+        return;
+    }
+     
+    Node *ins = (Node*) malloc(sizeof(Node));
+    if (ins == NULL) {
+        return;
+    }
+    
+    ins->value = value;
+    ins->id = findId(list);
+    ins->prev = elm->prev;
+    ins->next = elm; // Устанавливаем указатель next для нового элемента
+    
+    elm->prev->next = ins; // Обновляем указатель next у предыдущего элемента
+    elm->prev = ins; // Обновляем указатель prev у текущего элемента
+}
+
+int cmp(int idOne, int idTwo) {
+    if (idOne > idTwo) {
+        return 1;
+    } else if (idOne < idTwo) {
+        return -1;
+    } else {
+        return 0;
+    }
+}
+void insertionSort(List **list) {
+    List* out = CreateList();
+    Node* sorted = NULL;
+    Node *unsorted = NULL;
+    pushFront(out, popFront((*list)));
+    unsorted = (*list)->head;
+    while (unsorted) {
+        sorted = out->head;      
+        while (sorted && !cmp(unsorted->id, sorted->id)) {
+            sorted = sorted->next;
+        }
+        if (sorted) {
+            insertBeforeElement(out, sorted, sorted->value);
+        } else {
+            pushBack(out, unsorted->value);
+        }
+        unsorted = unsorted->next;
+    }
+    free(*list);
+    *list = out;
 }
