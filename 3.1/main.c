@@ -52,7 +52,7 @@ mode_t ConvertMode(mode_t currentMode, char target, char operation,char action){
     }
 
     if(target == 'a' || target == 'u') mask |= actionMask & (S_IRUSR | S_IWUSR | S_IXUSR); 
-    if(target == 'a' || target == 'g') mask |= actionMask & (S_IRUSR | S_IWUSR | S_IXUSR); 
+    if(target == 'a' || target == 'g') mask |= actionMask & (S_IRGRP | S_IWGRP | S_IXGRP); 
     if(target == 'a' || target == 'o') mask |= actionMask & (S_IROTH | S_IWOTH | S_IXOTH); 
     
     switch(operation){
@@ -93,8 +93,6 @@ mode_t stringDivide(mode_t currentMode){
 
     for(int i = 0; i < strlen(signatureTarget); i++){
 
-        printf("%d",strlen(signatureTarget));
-
         if(strlen(signatureTarget) == 0) break;
         
         for(int j = 0; j < strlen(signatureAction); j++){
@@ -121,16 +119,17 @@ void convertLetters(){
     if (access[0] >= '0' && access[0] <= '7') {
         sscanf(access, "%o", &permission);
     } else {
-        for(int i = 0; i < strlen(access); i++){
-            if (access[i] == 'r') {
-                permission |= 4;
-            }
-            if (access[i] == 'w') {
-                permission |= 2;
-            }
-            if (access[i] == 'x') {
-                permission |= 1;
-            }
+        int j= 0;
+        for (int i = 0; access[i] != 0; i++)
+        {
+            if(access[i]=='r')
+                permission |= 0400>>j;
+            if(access[i]=='w')
+                permission |= 0200>>j;
+            if(access[i]=='x')
+                permission |= 0100>>j;
+            if(i==2 || i==5 )
+                j+=3;
         }
     }
     displayPermissions(permission);
