@@ -1,2 +1,2 @@
 all:
-	gcc main.c 
+	gcc -o main main.c Models/List.c -ldl
