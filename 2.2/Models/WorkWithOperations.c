@@ -1,10 +1,10 @@
 #include "WorkWithOperations.h"
 
 
-int Counting(int operation){
+void Counting(int operation){
     
-    int count,result = 0;
-    
+    int count;
+    double result;
 
     printf("Введите количество чисел:");
     scanf("%d",&count);
@@ -29,10 +29,9 @@ int Counting(int operation){
             break;
         default:
             printf("Неверный выбор операции!\n");
-            return 0;
+            return;
         }
-
-    return result;
+    printf("Ответ: %lf\n", result);
 }
 
 
@@ -49,8 +48,7 @@ void Menu(){
         getchar();
 
         if (choice != 5) {
-            int result = Counting(choice);
-            printf("Ответ: %lf\n", result);
+            Counting(choice);
         } 
     } 
 }
