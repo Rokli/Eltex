@@ -39,4 +39,10 @@ void RigthRotation(Tree **root);
 
 void LeftRotation(Tree **root);
 
+int max(int a, int b);
+
+int height(Tree* root);
+
+int isBalanced(Tree* root);
+
 #endif
