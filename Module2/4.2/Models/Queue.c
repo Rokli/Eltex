@@ -49,22 +49,36 @@ int getMessageMaxPriority(Queue *head){
 }
 
 Queue* getNth(Queue* head, int priority) {
-    while (head->next->priority != priority) {
+    while (head != NULL && head->priority != priority) {
         head = head->next;
     }
-    if(head->priority != priority) printf("Такого приоритета нет, вытащен последний добавленный\n");
     return head;
 }
 
 void deleteNth(Queue **head, int priority) {
-    Queue *prev = getNth(*head, priority);
-    Queue *elm  = prev->next;
-    printMessage(elm->_message, elm->priority);
-    prev->next = elm->next;
-    free(elm);
+    if (*head == NULL) {
+        return;
+    }
+    
+    if ((*head)->priority == priority) {
+        Queue *temp = *head;
+        *head = (*head)->next;
+        printMessage(temp->_message, temp->priority);
+        free(temp);
+        return;
+    }
 
+    Queue *prev = *head;
+    while (prev->next != NULL && prev->next->priority != priority) {
+        prev = prev->next;
+    }
+    if (prev->next != NULL) {
+        Queue *elm = prev->next;
+        prev->next = elm->next;
+        printMessage(elm->_message, elm->priority);
+        free(elm);
+    }
 }
-
 void deleteList(Queue **head) {
     Queue* prev = NULL;
     while ((*head)->next) {

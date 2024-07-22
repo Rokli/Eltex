@@ -3,12 +3,15 @@
 
 void AddPerson(List *phoneBook){
     Person person = CreatePerson();
-    pushBack(phoneBook,person);
-    
+    if(phoneBook->head == NULL){
+        pushBack(phoneBook,person);
+    }else{
+        insert(phoneBook,addId(phoneBook),person);
+    }
 }
 
 void PrintPhoneBook(List *phoneBook){
-    SortList(phoneBook);
+    // SortList(phoneBook);
     printList(phoneBook,printPerson);
 }   
 

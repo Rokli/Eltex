@@ -37,9 +37,36 @@ void pushBack(List *list, Person value) {
     if (list->head == NULL) {
         list->head = tmp;
     }
-    tmp->id = findId(list);
+
+    tmp->value.id = addId(list);
 }
 
+void pushBackForList(List *list, Person value, int id) {
+    Node *tmp = (Node*) malloc(sizeof(Node));
+    if (tmp == NULL) {
+        exit(3);
+    }
+    tmp->value = value;
+    tmp->next = NULL;
+    tmp->prev = list->tail;
+    
+    if (list->tail) {
+        list->tail->next = tmp;
+    }
+    list->tail = tmp;
+ 
+    if (list->head == NULL) {
+        list->head = tmp;
+    }
+    tmp->value.id = id;
+}
+
+unsigned int addId(List* list){
+    int id;
+    printf("Введите ID:");
+    scanf("%d", &id);
+    return id;
+}
 unsigned int findId(List *list){
     Node *tmp = list->head;
     unsigned int id = 0;
@@ -48,30 +75,56 @@ unsigned int findId(List *list){
         tmp = tmp->next;
         id++;
     }
- 
     return id; 
 }
 Node* getNth(List *list, int index) {
     Node *tmp = list->head;
-    int id = 0;
  
-    while (tmp->next != NULL) {
-        if(tmp->id == index) break;
+    while (tmp && tmp->value.id < index) {
+        if(tmp->next == NULL){
+            break;
+        }
+        if(tmp->next != NULL && tmp->next->value.id > index) break;
         tmp = tmp->next;
-        id++;
     }
- 
+    printf("%d",tmp->value.id);
     return tmp;
 }
  
+void insert(List *list, int index,Person person) {
+    Node *elm = NULL;
+    Node *ins = NULL;
+    elm = getNth(list, index);
+    
+    if (elm == NULL) {
+        exit(5);
+    }
+    ins = (Node*) malloc(sizeof(Node));
+    ins->value = person;
+    ins->value.id = index;
+    ins->prev = elm;
+    ins->next = elm->next;
+    if (elm->next) {
+        elm->next->prev = ins;
+    }
+    elm->next = ins;
+ 
+    if (!elm->prev && elm->value.id > index) {
+        list->head = ins;
+        ins->next = elm;
+        elm->next = NULL;
+        elm->prev = ins;
+    }
+    if (!elm->next) {
+        list->tail = elm;
+    }
+}
+
 Person deleteNth(List *list, int index) {
     Node *elm = NULL;
     Person tmp;
     elm = getNth(list, index);
-
-    if(elm->id != 0){
-        elm->next->id--;
-    }
+    
     if (elm == NULL) {
         exit(5);
     }
@@ -109,12 +162,28 @@ void printList(List *list, void (*fun)(Person)) {
     
     while (tmp) {
         printf("-------------\n");
-        printf("ID:%d\n",tmp->id);
+        printf("ID:%d\n",tmp->value.id);
         fun(tmp->value);
         tmp = tmp->next;
         printf("-------------\n");
     }
     printf("\n");
+}
+
+void bubbleSort(Person* num, int size)
+{
+    for (int i = 0; i < size - 1; i++)
+    {
+        for (int j = (size - 1); j > i; j--) 
+        {
+            if (num[j - 1].id > num[j].id) 
+            {
+                Person temp = num[j - 1]; 
+                num[j - 1] = num[j];
+                num[j] = temp;
+            }
+        }
+    }
 }
 
 void SortList(List *list){
@@ -127,8 +196,10 @@ void SortList(List *list){
         counter++;
         tmp = tmp->next;
     }
+    bubbleSort(array,counter);
     for(int i = 0; i < counter; i++){
-        pushBack(sort,array[i]);
+        printf("%d\t%s",array[i].id,array[i].name);
+        pushBackForList(sort,array[i],array[i].id);
     }
     list = sort;
 }

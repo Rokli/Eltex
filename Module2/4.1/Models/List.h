@@ -18,6 +18,8 @@ typedef struct List {
 
 List* CreateList();
 
+void insert(List *list, int index,Person person);
+
 void DeleteList(List **list);
 
 void pushBack(List *list, Person value);
@@ -31,6 +33,8 @@ unsigned int findId(List *list);
 void printPerson(Person person);
 
 void printList(List *list, void (*fun)(Person));
+
+unsigned int addId(List* list);
 
 void SortList(List *list);
 

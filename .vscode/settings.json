@@ -25,7 +25,8 @@
         "string_view": "c",
         "span": "c",
         "dlfcn.h": "c",
-        "random": "c"
+        "random": "c",
+        "text_encoding": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "C_Cpp.dimInactiveRegions": false

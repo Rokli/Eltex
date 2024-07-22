@@ -6,12 +6,13 @@
       "type": "shell",
       "command": "gcc",
       "args": [
-        "${fileDirname}/4.1/main.c",
-        "${fileDirname}/4.1/Models/List.c",
-        "${fileDirname}/4.1/Models/Contact.c",
-        "${fileDirname}/4.1/Models/Person.c",
+        "-g",
+        "${file}",
+        "/home/hikiray/module2/practice1/Module2/4.1/Models/Contact.c",
+        "/home/hikiray/module2/practice1/Module2/4.1/Models/List.c",
+        "/home/hikiray/module2/practice1/Module2/4.1/Models/Person.c",
         "-o",
-        "${fileDirname}/List"
+        "${fileDirname}/${fileBasenameNoExtension}.out"
       ],
       "group": {
         "kind": "build",

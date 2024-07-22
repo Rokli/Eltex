@@ -8,5 +8,5 @@ double Summ(int count, double numbers[] ){
         result += numbers[i];
     }
 
-    return result;
+    return 0;
 }

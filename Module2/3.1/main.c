@@ -94,7 +94,7 @@ mode_t stringDivide(mode_t currentMode){
     for(int i = 0; i < strlen(signatureTarget); i++){
 
         if(strlen(signatureTarget) == 0) break;
-        
+
         for(int j = 0; j < strlen(signatureAction); j++){
 
             if(strlen(signatureAction) == 0) break;
