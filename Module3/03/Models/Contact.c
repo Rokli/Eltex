@@ -4,14 +4,13 @@
 void AddPerson(List *phoneBook){
     Person person = CreatePerson();
     if(phoneBook->head == NULL){
-        pushBack(phoneBook,person);
+        pushBack(phoneBook,person,addId());
     }else{
         insert(phoneBook,addId(phoneBook),person);
     }
 }
 
 void PrintPhoneBook(List *phoneBook){
-    // SortList(phoneBook);
     printList(phoneBook,printPerson);
 }   
 

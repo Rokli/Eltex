@@ -14,6 +14,10 @@ Person CreatePerson(){
     printf("Введите отчество:");
     scanf("%s",&person.patronymic);
 
+    strcpy(person.email, "\0");
+    strcpy(person.post, "\0");
+    strcpy(person.numberPhone.homePhone, "\0");
+    strcpy(person.numberPhone.workPhone, "\0");
     return person;
 }
 

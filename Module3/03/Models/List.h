@@ -22,7 +22,7 @@ void insert(List *list, int index,Person person);
 
 void DeleteList(List **list);
 
-void pushBack(List *list, Person value);
+void pushBack(List *list, Person value,int id);
 
 Node* getNth(List *list, int index);
 
@@ -34,6 +34,6 @@ void printPerson(Person person);
 
 void printList(List *list, void (*fun)(Person));
 
-unsigned int addId(List* list);
+unsigned int addId();
 
 #endif

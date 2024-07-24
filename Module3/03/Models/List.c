@@ -20,7 +20,7 @@ void DeleteList(List **list) {
     (*list) = NULL;
 }
 
-void pushBack(List *list, Person value) {
+void pushBack(List *list, Person value,int id) {
     Node *tmp = (Node*) malloc(sizeof(Node));
     if (tmp == NULL) {
         exit(3);
@@ -38,7 +38,7 @@ void pushBack(List *list, Person value) {
         list->head = tmp;
     }
 
-    tmp->value.id = addId(list);
+    tmp->value.id = id;
 }
 
 void pushBackForList(List *list, Person value, int id) {
@@ -61,7 +61,7 @@ void pushBackForList(List *list, Person value, int id) {
     tmp->value.id = id;
 }
 
-unsigned int addId(List* list){
+unsigned int addId(){
     int id;
     printf("Введите ID:");
     scanf("%d", &id);

@@ -6,6 +6,8 @@
 
 void SaveList(List* phoneBook);
 
-void LoadPhoneBook(List phoneBook);
+int IdValue(char *name);
+
+void LoadPhoneBook(List* phoneBook);
 
 #endif
