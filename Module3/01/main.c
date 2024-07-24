@@ -8,6 +8,11 @@ int calculateSquareArea(int sideLength) {
 
 int main(int argc, char *argv[]) {
 
+    if(argc ==1 ){
+        printf("Использование: %s <длина стороны n> ... \n", argv[0]);
+        return 1;
+    }
+    
     int sides[argc-1],pid;
     int middle = argc / 2;
 
@@ -21,7 +26,6 @@ int main(int argc, char *argv[]) {
             exit(1); 
         case 0:
             printf("Процесс-потомок:\n");
-            printf("%d",middle);
             for(int i = 0; i < middle; i++){
                 printf("Площадь квадрата:%d\tСторона:%d\n",calculateSquareArea(sides[i]),sides[i]);
             }
