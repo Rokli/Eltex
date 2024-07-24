@@ -17,7 +17,6 @@ int main(){
         printf(">>");
 
         fgets(input, BUFFER_SIZE, stdin);
-        input[strcspn(input, "\n")] = 0;
 
         if (strcmp(input, "exit") == 0) {
             printf("Выход из интерпретатора.\n");
