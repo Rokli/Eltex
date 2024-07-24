@@ -60,6 +60,7 @@ void LoadPhoneBook(List* phoneBook){
     while((fscanf(fp, "%s", str))!=EOF)
     {
         if(strcmp(str, "{") == 0) continue;
+        
         if(strcmp(str, "}") == 0){
             if(phoneBook->head == NULL){
                 pushBack(phoneBook,person,person.id);
@@ -68,8 +69,10 @@ void LoadPhoneBook(List* phoneBook){
             }
             continue;
         }
+
         char *name = strtok(str,":");
         char *value = strtok(NULL,":");
+
         if(name != NULL && value != NULL){
             switch (IdValue(name))
             {
