@@ -10,7 +10,7 @@
 
 
 int main(){
-    
+
     char input[BUFFER_SIZE]; 
 
     while(1){
@@ -24,7 +24,6 @@ int main(){
             break;
         }
 
-
         char *args[10]; 
         int i = 0;
 
@@ -36,6 +35,7 @@ int main(){
         }
 
         args[i] = NULL; 
+
         int pid;
         pid = fork();
 
@@ -43,11 +43,11 @@ int main(){
             if (strcmp(args[0], "sum") == 0) {
                 execvp("./sum", args);
             } else if (strcmp(args[0], "concat") == 0) {
-            execvp("./concat", args);
+                execvp("./concat", args);
             } else if (strcmp(args[0], "max") == 0) {
-            execvp("./max", args);
+                execvp("./max", args);
             } else {
-            printf("Неизвестная команда.\n");
+                printf("Неизвестная команда.\n");
             }
         }else{
             wait(NULL);
