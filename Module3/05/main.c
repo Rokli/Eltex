@@ -36,46 +36,52 @@ int main(int argc, char *argv[]) {
 
     if (pid == 0) { 
         close(pipe_fd[0]); 
-        while (!access_flag) {
-            pause(); 
+        while (1) { 
+            while (!access_flag) {
+                pause(); 
+            }
+
+            FILE *file = fopen("random_numbers.txt", "r");
+            char name[MAX_LENGTH_CHAR];
+
+            if (!file) {
+                perror("Файл не открылся");
+                exit(1); 
+            }
+
+            while (fscanf(file, "%s", name) != EOF) {
+                printf("%s\n", name);
+            }
+            
+            fclose(file); 
+
+            srand(time(NULL)); 
+            int random_number = rand() % 100; 
+            write(pipe_fd[1], &random_number, sizeof(random_number));
         }
-
-        FILE *file = fopen("random_numbers.txt", "r");
-        char name[MAX_LENGTH_CHAR];
-
-        if (!file) {
-            perror("Файл не открылся");
-            return 1;
-        }
-
-        while (fscanf(file, "%s", name) != EOF) {
-            printf("%s\n", name);
-        }
-        fclose(file); 
-
-        srand(time(NULL)); 
-        int random_number = rand() % 100; 
-        write(pipe_fd[1], &random_number, sizeof(random_number));
-        
         close(pipe_fd[1]); 
         return 0;
     } else { 
         close(pipe_fd[1]); 
-        kill(pid, SIGUSR1); 
+        while (1) { 
+            kill(pid, SIGUSR1); 
 
-        FILE *file = fopen("random_numbers.txt", "w");
-        if (file == NULL) {
-            perror("Файл не открылся");
-            return 1;
+            FILE *file = fopen("random_numbers.txt", "w");
+            if (file == NULL) {
+                perror("Файл не открылся");
+                exit(1); 
+            }
+
+            int received_number;
+            read(pipe_fd[0], &received_number, sizeof(received_number));
+            printf("Полученное число: %d\n", received_number);
+            fprintf(file, "%d\n", received_number);
+            
+            fclose(file); 
+            kill(pid, SIGUSR2);
+
+            sleep(1);
         }
-
-        int received_number;
-        read(pipe_fd[0], &received_number, sizeof(received_number));
-        printf("Полученное число: %d\n", received_number);
-        fprintf(file, "%d\n", received_number);
-        
-        fclose(file); 
-        kill(pid, SIGUSR2);
         wait(NULL); 
         close(pipe_fd[0]); 
     }
