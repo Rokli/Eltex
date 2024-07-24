@@ -36,6 +36,4 @@ void printList(List *list, void (*fun)(Person));
 
 unsigned int addId(List* list);
 
-void SortList(List *list);
-
 #endif

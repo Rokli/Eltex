@@ -2,6 +2,7 @@
 #define person_h
 
 #include <stdio.h>
+#include <string.h>
 
 #define MAX_LENGTH_CHAR 128
 #define MAX_LENGTH_STRUCT 5

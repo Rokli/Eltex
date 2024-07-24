@@ -9,7 +9,7 @@ int main(){
     
     while(flag){
         
-        printf("1 - Добавить пользователя\t2 - Вывести список пользователей\n3 - Выйти из телефонной книги\t4 - Редактировать контакт\n5 - Удалить контакт\t6 - Вывести информацию про отдельного пользователя\n");
+        printf("1 - Добавить пользователя\n2 - Вывести список пользователей\n3 - Выйти из телефонной книги\n4 - Редактировать контакт\n5 - Сохранить в файл\n6 - Удалить контакт\n7 - Вывести информацию про отдельного пользователя\n");
         
         int tmp;
         scanf("%d", &tmp);
@@ -30,9 +30,12 @@ int main(){
             EditContact(phoneBook);
             break;
         case 5:
-            DeleteContact(phoneBook);
+            SavePhoneBook(phoneBook);
             break;
         case 6:
+            DeleteContact(phoneBook);
+            break;
+        case 7:
             PrintIndividualContact(phoneBook);
             break;    
         default:

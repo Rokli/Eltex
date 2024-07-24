@@ -1,2 +1,2 @@
 all:
-	gcc main.c Models/Contact.c Models/List.c Models/Person.c -o a
+	gcc main.c Models/Contact.c Models/List.c Models/Person.c Models/WorkWithFile.c -o a

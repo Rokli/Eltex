@@ -87,7 +87,6 @@ Node* getNth(List *list, int index) {
         if(tmp->next != NULL && tmp->next->value.id > index) break;
         tmp = tmp->next;
     }
-    printf("%d",tmp->value.id);
     return tmp;
 }
  
@@ -168,38 +167,4 @@ void printList(List *list, void (*fun)(Person)) {
         printf("-------------\n");
     }
     printf("\n");
-}
-
-void bubbleSort(Person* num, int size)
-{
-    for (int i = 0; i < size - 1; i++)
-    {
-        for (int j = (size - 1); j > i; j--) 
-        {
-            if (num[j - 1].id > num[j].id) 
-            {
-                Person temp = num[j - 1]; 
-                num[j - 1] = num[j];
-                num[j] = temp;
-            }
-        }
-    }
-}
-
-void SortList(List *list){
-    Person array[MAX_LENGTH_CHAR];
-    List* sort = CreateList();
-    Node* tmp = list->head;
-    int counter = 0;
-    for(int i = 0; tmp; i++ ){
-        array[i] = tmp->value;
-        counter++;
-        tmp = tmp->next;
-    }
-    bubbleSort(array,counter);
-    for(int i = 0; i < counter; i++){
-        printf("%d\t%s",array[i].id,array[i].name);
-        pushBackForList(sort,array[i],array[i].id);
-    }
-    list = sort;
 }

@@ -46,3 +46,7 @@ void PrintIndividualContact(List* phoneBook){
     printf("ID:%d\n",tmp->id);
     printPerson(tmp->value);
 }
+
+void SavePhoneBook(List* phoneBook){
+    SaveList(phoneBook);
+}

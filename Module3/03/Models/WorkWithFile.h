@@ -4,8 +4,8 @@
 #include "List.h"
 
 
-void SavePhoneBook();
+void SaveList(List* phoneBook);
 
-void LoadPhoneBook():
+void LoadPhoneBook(List phoneBook);
 
 #endif

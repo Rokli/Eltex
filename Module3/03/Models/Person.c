@@ -21,12 +21,12 @@ Person EditNumberPhone(Person person){
     
     printf("Домашний номер:%s\nРабочий номер:%s\n", person.numberPhone.homePhone,person.numberPhone.workPhone);
 
-    printf("1 - Изменить домашний номер\n2 - Изменить рабочий номер");
+    printf("1 - Изменить домашний номер\n2 - Изменить рабочий номер\n");
 
     int tmp;
-    scanf("%d\n", &tmp);
+    scanf("%d", &tmp);
 
-    printf("Введите новый номер:");
+    printf("\nВведите новый номер:");
 
     switch (tmp)
     {
@@ -78,26 +78,31 @@ Person EditPerson(Person person){
     scanf("%d", &tmp);
     getchar();
 
-    if( tmp != 7 || tmp != 5)printf("Введите новое значение:");
+    
     
     switch (tmp)
     {
     case 1:
+        printf("Введите новое значение:");
         scanf("%s", &person.name);
         break;
     case 2:
+        printf("Введите новое значение:");
         scanf("%s", &person.surname);
         break;
     case 3:
+        printf("Введите новое значение:");
         scanf("%s", &person.patronymic);
         break;
     case 4:
+        printf("Введите новое значение:");
         scanf("%s", &person.post);
         break;
     case 5:
         person = EditNumberPhone(person);
         break;
     case 6:
+        printf("Введите новое значение:");
         scanf("%s", &person.email);
         break;
     case 7:

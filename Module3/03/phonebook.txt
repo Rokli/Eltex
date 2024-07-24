@@ -1,0 +1,10 @@
+{
+	ID:23
+	NAME:fg
+	SURNAME:fg
+	PATRONYMIC:fg
+	POST:proger
+	EMAIL:
+	HOMEPHONE:2434
+	WORKPHONE:
+}
