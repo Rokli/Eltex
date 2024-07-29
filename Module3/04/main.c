@@ -45,21 +45,22 @@ int main(int argc, char *argv[]){
     } else { 
         close(pipe_fd[1]); 
 
-        FILE *file = fopen("random_numbers.txt", "w");
-
-        if (file == NULL) {
-            perror("Файл не открылся");
-            return 1;
-        }
-
         int received_number;
         for (int i = 0; i < count; i++) {
+
+            FILE *file = fopen("random_numbers.txt", "a");
+
+            if (file == NULL) {
+                perror("Файл не открылся");
+                return 1;
+            }
+            
             read(pipe_fd[0], &received_number, sizeof(received_number));
             printf("Полученное число: %d\n", received_number);
             fprintf(file, "%d\n", received_number);
-        }
 
-        fclose(file);
+            fclose(file);
+        }
         close(pipe_fd[0]); 
     }
 
