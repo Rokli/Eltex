@@ -21,7 +21,6 @@ void sigusr2_handler(int signum) {
 int main(int argc, char *argv[]) {
     signal(SIGUSR1, sigusr1_handler);
     signal(SIGUSR2, sigusr2_handler);
-
     int pipe_fd[2];
     if (pipe(pipe_fd) == -1) {
         perror("pipe");
@@ -35,6 +34,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (pid == 0) { 
+        srand(time(NULL)); // Инициализация генератора случайных чисел
         close(pipe_fd[0]); 
         while (1) { 
             while (!access_flag) {
@@ -55,9 +55,9 @@ int main(int argc, char *argv[]) {
             
             fclose(file); 
 
-            srand(time(NULL)); 
-            int random_number = rand() % 100; 
+            int random_number = rand() % 500; // Генерация случайного числа
             write(pipe_fd[1], &random_number, sizeof(random_number));
+            sleep(2);
         }
         close(pipe_fd[1]); 
         return 0;
@@ -66,21 +66,20 @@ int main(int argc, char *argv[]) {
         while (1) { 
             kill(pid, SIGUSR1); 
 
-            FILE *file = fopen("random_numbers.txt", "w");
+            int received_number;
+
+            FILE *file = fopen("random_numbers.txt", "a");
             if (file == NULL) {
                 perror("Файл не открылся");
                 exit(1); 
             }
 
-            int received_number;
             read(pipe_fd[0], &received_number, sizeof(received_number));
-            printf("Полученное число: %d\n", received_number);
             fprintf(file, "%d\n", received_number);
             
             fclose(file); 
             kill(pid, SIGUSR2);
-
-            sleep(1);
+            sleep(3);
         }
         wait(NULL); 
         close(pipe_fd[0]); 
