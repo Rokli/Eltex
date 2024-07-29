@@ -7,16 +7,16 @@
 
 #define MSG_SIZE 100
 
-struct msg_buffer {
+typedef struct msg_buffer {
     long msg_type;
     char msg_text[MSG_SIZE];
-};
+}msg_buffer;
 
 int main() {
     key_t key = ftok("chat", 65); 
     int msgid = msgget(key, 0666 | IPC_CREAT); 
 
-    struct msg_buffer message;
+    msg_buffer message;
 
     while (1) {
         msgrcv(msgid, &message, sizeof(message), 1, 0); 
