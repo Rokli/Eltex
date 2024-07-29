@@ -17,17 +17,24 @@ int main() {
     int msgid = msgget(key, 0666 | IPC_CREAT); 
 
     msg_buffer message;
-    message.msg_type = 1;
 
     while (1) {
-        printf("Введите сообщение: ");
+        printf("Введите сообщение(exit - для выхода): ");
         fgets(message.msg_text, MSG_SIZE, stdin);
         message.msg_text[strcspn(message.msg_text, "\n")] = 0; 
+
+        if(strcmp(message.msg_text,"exit") == 0){
+            message.msg_type = 4;
+            msgsnd(msgid, &message, sizeof(message), 0); 
+            printf("Диалог закончен\n");
+            break;
+        }
+
         message.msg_type = 1;
 
         msgsnd(msgid, &message, sizeof(message), 0); 
 
-        msgrcv(msgid, &message, sizeof(message), 2, 0); 
+        msgrcv(msgid, &message, sizeof(message), 0, 0); 
         printf("Получено: %s\n", message.msg_text);
     }
 

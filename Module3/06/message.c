@@ -19,12 +19,12 @@ int main() {
     msg_buffer message;
 
     while (1) {
-        msgrcv(msgid, &message, sizeof(message), 1, 0); 
+        msgrcv(msgid, &message, sizeof(message), 0, 0); 
 
-        // if (message.msg_type == 2) { 
-        //     printf("Завершение обмена.\n");
-        //     break;
-        // }
+        if (message.msg_type == 4) { 
+            printf("Диалог закончен.\n");
+            break;
+        }
 
         printf("Получено: %s\n", message.msg_text);
         
@@ -34,8 +34,6 @@ int main() {
         message.msg_text[strcspn(message.msg_text, "\n")] = 0; 
         message.msg_type = 2;
         msgsnd(msgid, &message, sizeof(message), 0); 
-        // message.msg_type = 2; 
-        // msgsnd(msgid, &message, sizeof(message), 0); 
     }
 
     msgctl(msgid, IPC_RMID, NULL); 
