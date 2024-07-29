@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
             for(int i = 0; i < middle; i++){
                 printf("Площадь квадрата:%d\tСторона:%d\n",calculateSquareArea(sides[i]),sides[i]);
             }
-            
+            free(sides);
             break;
         default:
             printf("Процесс-родитель:\n");
@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
             for(int i = middle; i < argc-1; i++){
                 printf("Площадь квадрата:%d\tСторона:%d\n",calculateSquareArea(sides[i]),sides[i]);
             }
-
+            free(sides);
             break;
 }
     return 0;
