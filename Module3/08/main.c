@@ -11,12 +11,12 @@
 
 #define MAX_LENGTH_CHAR 128
 
-void P(int semid) {
+void stop(int semid) {
     struct sembuf p = {0, -1, 0}; 
     semop(semid, &p, 1);
 }
 
-void V(int semid) {
+void start(int semid) {
     struct sembuf v = {0, 1, 0}; 
     semop(semid, &v, 1);
 }
@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
         close(pipe_fd[0]); 
         while (1) { 
             sleep(1);
-            P(semid); 
+            stop(semid); 
 
             FILE *file = fopen("random_numbers.txt", "r");
             char name[MAX_LENGTH_CHAR];
@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
             srand(time(NULL)); 
             int random_number = rand() % 100; 
             write(pipe_fd[1], &random_number, sizeof(random_number));
-            V(semid);
+            start(semid);
         }
         close(pipe_fd[1]); 
         return 0;
@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
         close(pipe_fd[1]); 
         while (1) { 
             sleep(2);
-            P(semid);
+            stop(semid);
             FILE *file = fopen("random_numbers.txt", "a");
             if (file == NULL) {
                 perror("Файл не открылся");
@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
             
             fclose(file); 
 
-            V(semid);
+            start(semid);
         }
         wait(NULL); 
         close(pipe_fd[0]); 
