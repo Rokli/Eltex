@@ -18,13 +18,13 @@ int main() {
     attr.mq_msgsize = MAX_SIZE; 
     attr.mq_curmsgs = 0;
 
-    mq = mq_open(QUEUE_NAME, O_RDONLY);
+    mq = mq_open(QUEUE_NAME, O_CREAT | O_RDWR, 0644, &attr);
     
     if (mq == (mqd_t)-1) {
         perror("mq_open");
         exit(EXIT_FAILURE);
     }
-    
+
     while(1){
         ssize_t bytes_read = mq_receive(mq, buffer, MAX_SIZE, NULL);
         if (bytes_read >= 0) {
@@ -33,9 +33,16 @@ int main() {
             perror("mq_receive");
             return 1;
         }
+
+        printf("Введите сообщение: ");
+        fgets(buffer, MAX_SIZE, stdin);
+        buffer[strcspn(buffer, "\n")] = 0;
+
+        if (mq_send(mq, buffer, strlen(buffer) + 1, 1) == -1) {
+            perror("mq_send");
+            return 1;
+        }
     }
-
-
 
     if (mq_close(mq) == -1) {
         perror("mq_close");

@@ -23,8 +23,9 @@ int main() {
     
     if (mq == (mqd_t)-1) {
         perror("mq_open");
-        exit(EXIT_FAILURE);
+        return 1;
     }
+
     while(1){
         printf("Введите сообщение: ");
         fgets(buffer, MAX_SIZE, stdin);
@@ -34,7 +35,16 @@ int main() {
             perror("mq_send");
             return 1;
         }
+        
+        ssize_t bytes_read = mq_receive(mq, buffer, MAX_SIZE, NULL);
+        if (bytes_read >= 0) {
+            printf("Получил: %s\n", buffer);
+        } else {
+            perror("mq_receive");
+            return 1;
+        }
     }
+
     if (mq_close(mq) == -1) {
         perror("mq_close");
         return 1;
