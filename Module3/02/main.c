@@ -39,15 +39,10 @@ int main(){
         pid = fork();
 
         if(pid == 0){
-            if (strcmp(args[0], "sum") == 0) {
-                execvp("./sum", args);
-            } else if (strcmp(args[0], "concat") == 0) {
-                execvp("./concat", args);
-            } else if (strcmp(args[0], "max") == 0) {
-                execvp("./max", args);
-            } else {
-                printf("Неизвестная команда.\n");
-            }
+            char *file = malloc(strlen("./") + strlen(args[1]) + 1);
+            strcpy(file, "./");
+            strcat(file, args[0]);
+            execvp(file, args);
         }else{
             wait(NULL);
         }
