@@ -17,17 +17,25 @@ int main() {
     int msgid = msgget(key, 0666 | IPC_CREAT); 
 
     struct msg_buffer message;
-    message.msg_type = 1;
 
     while (1) {
+        msgrcv(msgid, &message, sizeof(message), 1, 0); 
+
+        // if (message.msg_type == 2) { 
+        //     printf("Завершение обмена.\n");
+        //     break;
+        // }
+
+        printf("Получено: %s\n", message.msg_text);
+        
         printf("Введите сообщение: ");
         fgets(message.msg_text, MSG_SIZE, stdin);
+
         message.msg_text[strcspn(message.msg_text, "\n")] = 0; 
-
+        message.msg_type = 2;
         msgsnd(msgid, &message, sizeof(message), 0); 
-
-        msgrcv(msgid, &message, sizeof(message), 2, 0); 
-        printf("Получено: %s\n", message.msg_text);
+        // message.msg_type = 2; 
+        // msgsnd(msgid, &message, sizeof(message), 0); 
     }
 
     msgctl(msgid, IPC_RMID, NULL); 

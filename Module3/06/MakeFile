@@ -1,0 +1,7 @@
+all: message main
+
+message: message.c
+	gcc message.c -o message
+
+main: main.c
+	gcc main.c -o main
