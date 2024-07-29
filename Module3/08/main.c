@@ -3,25 +3,30 @@
 #include <unistd.h>
 #include <time.h>
 #include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/sem.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <sys/wait.h>
-#include <signal.h>
 
 #define MAX_LENGTH_CHAR 128
 
-volatile sig_atomic_t access_flag = 0; 
-
-void sigusr1_handler(int signum) {
-    access_flag = 1; 
+void P(int semid) {
+    struct sembuf p = {0, -1, 0}; 
+    semop(semid, &p, 1);
 }
 
-void sigusr2_handler(int signum) {
-    access_flag = 0; 
+void V(int semid) {
+    struct sembuf v = {0, 1, 0}; 
+    semop(semid, &v, 1);
 }
 
 int main(int argc, char *argv[]) {
-    signal(SIGUSR1, sigusr1_handler);
-    signal(SIGUSR2, sigusr2_handler);
-
+    key_t key = ftok("/etc/fstab", getpid());; 
+    int semid = semget(key, 3, IPC_CREAT | 0666); 
+    
+    semctl(semid, 0, SETVAL, 1); 
+    
     int pipe_fd[2];
     if (pipe(pipe_fd) == -1) {
         perror("pipe");
@@ -33,13 +38,12 @@ int main(int argc, char *argv[]) {
         perror("fork");
         return 1;
     }
-
+    
     if (pid == 0) { 
         close(pipe_fd[0]); 
         while (1) { 
-            while (!access_flag) {
-                pause(); 
-            }
+            sleep(1);
+            P(semid); 
 
             FILE *file = fopen("random_numbers.txt", "r");
             char name[MAX_LENGTH_CHAR];
@@ -58,14 +62,15 @@ int main(int argc, char *argv[]) {
             srand(time(NULL)); 
             int random_number = rand() % 100; 
             write(pipe_fd[1], &random_number, sizeof(random_number));
+            V(semid);
         }
         close(pipe_fd[1]); 
         return 0;
     } else { 
         close(pipe_fd[1]); 
         while (1) { 
-            kill(pid, SIGUSR1); 
-
+            sleep(2);
+            P(semid);
             FILE *file = fopen("random_numbers.txt", "a");
             if (file == NULL) {
                 perror("Файл не открылся");
@@ -77,13 +82,12 @@ int main(int argc, char *argv[]) {
             fprintf(file, "%d\n", received_number);
             
             fclose(file); 
-            kill(pid, SIGUSR2);
 
-            sleep(3);
+            V(semid);
         }
         wait(NULL); 
         close(pipe_fd[0]); 
     }
-
+    semctl(semid, 0, IPC_RMID);
     return 0;
 }
