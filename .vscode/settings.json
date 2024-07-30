@@ -26,7 +26,15 @@
         "span": "c",
         "dlfcn.h": "c",
         "random": "c",
-        "text_encoding": "c"
+        "text_encoding": "c",
+        "unistd.h": "c",
+        "time.h": "c",
+        "fcntl.h": "c",
+        "msg.h": "c",
+        "system_error": "c",
+        "stat.h": "c",
+        "sem.h": "c",
+        "signal.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "C_Cpp.dimInactiveRegions": false
