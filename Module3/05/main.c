@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (pid == 0) { 
-        srand(time(NULL)); // Инициализация генератора случайных чисел
+        srand(time(NULL));
         close(pipe_fd[0]); 
         while (1) { 
             while (!access_flag) {
@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
             
             fclose(file); 
 
-            int random_number = rand() % 500; // Генерация случайного числа
+            int random_number = rand() % 500;
             write(pipe_fd[1], &random_number, sizeof(random_number));
             sleep(2);
         }
