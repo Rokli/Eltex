@@ -34,7 +34,11 @@
         "system_error": "c",
         "stat.h": "c",
         "sem.h": "c",
-        "signal.h": "c"
+        "signal.h": "c",
+        "wait.h": "c",
+        "types.h": "c",
+        "errno.h": "c",
+        "ipc.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "C_Cpp.dimInactiveRegions": false
