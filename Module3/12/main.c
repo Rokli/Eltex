@@ -8,13 +8,23 @@
 #include <sys/wait.h>
 #include <time.h>
 #include <unistd.h>
+#include <signal.h>
 
 #define KEY 123
 #define SIZE_SHM sizeof(int)
 
+int counter = 0;
+
 void P(int semid) {
   struct sembuf lock_res = {0, -1, 0};
   semop(semid, &lock_res, 1);
+}
+
+void sigint_handler(int signum) {
+  printf("\nПолучен сигнал SIGINT (Ctrl+C)\n");
+  printf("Количество обработанных наборов данных: %d\n",counter);
+  printf("Завершение программы...\n");
+  exit(0); 
 }
 
 void V(int semid) {
@@ -76,8 +86,9 @@ int main() {
     }
 
   } else {
+    signal(SIGINT, sigint_handler);
     for (int i = 0;; i++) {
-       int size_array = rand() % 10;
+        int size_array = rand() % 10;
       if (i%2 == 0) {
         P(semid);
        
@@ -98,8 +109,9 @@ int main() {
         printf("Максимальное значение:%d\n",shared_memory[1]);
         printf("Минимальное значение:%d\n",shared_memory[2]);
         V(semid);
+        counter++;
       }
-
+        
       
     }
   }
