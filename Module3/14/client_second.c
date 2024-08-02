@@ -46,21 +46,22 @@ int main(int argc, char **argv) {
     exit(1);
   }
   for (;;) {
-    printf("String => ");
-    fgets(sendline, 1000, stdin);
-
-    if (sendto(sockfd, sendline, strlen(sendline) + 1, 0,
-               (struct sockaddr *)&servaddr, sizeof(servaddr)) < 0) {
-      perror(NULL);
-      exit(1);
-    }
     if ((n = recvfrom(sockfd, recvline, 1000, 0, (struct sockaddr *)NULL,
                       NULL)) < 0) {
       perror(NULL);
       exit(1);
     }
+
     printf("%s\n", recvline);
     memset(recvline, 0, sizeof(recvline)); 
+    printf("String => ");
+    fgets(sendline, 1000, stdin);
+    if (sendto(sockfd, sendline, strlen(sendline) + 1, 0,
+               (struct sockaddr *)&servaddr, sizeof(servaddr)) < 0) {
+      perror(NULL);
+      exit(1);
+    }
+
   }
 
   close(sockfd);
