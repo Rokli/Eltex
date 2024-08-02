@@ -8,6 +8,8 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 
+#define MAX_CHAR 32
+
 void dostuff(int);
 
 void error(const char *msg) {
@@ -25,7 +27,20 @@ void printusers() {
   }
 }
 
-int myfunc(int a, int b) { return a + b; }
+int GetAction(char action[]){
+    if(strcmp(action,"+") == 0)return 1;
+    if(strcmp(action,"-") == 0)return 2;
+    if(strcmp(action,"*") == 0)return 3;
+    if(strcmp(action,"/") == 0)return 4;
+}
+
+int summ(int a, int b) { return a + b; }
+
+int difference(int a, int b) { return a - b; }
+
+int multiplication(int a, int b) { return a * b; }
+
+int division(int a, int b) { return a / b; }
 
 int main(int argc, char *argv[]) {
   char buff[1024];
@@ -60,48 +75,73 @@ int main(int argc, char *argv[]) {
     if (newsockfd < 0) error("ERROR on accept");
     nclients++;
 
-    struct hostent *hst;
-    hst = gethostbyaddr((char *)&cli_addr.sin_addr, 4, AF_INET);
+    struct hostent *hst = gethostbyaddr((char *)&cli_addr.sin_addr, 4, AF_INET);
     printf("+%s [%s] new connect!\n", (hst) ? hst->h_name : "Unknown host",
            (char *)inet_ntoa(cli_addr.sin_addr));
     printusers();
+
     pid = fork();
     if (pid < 0) error("ERROR on fork");
     if (pid == 0) {
       close(sockfd);
       dostuff(newsockfd);
       exit(0);
-    } else
+    } else {
       close(newsockfd);
+    }
   }
   close(sockfd);
   return 0;
 }
-
-void dostuff(int sock) {
-  int bytes_recv;  // размер принятого сообщения
-  int a, b;        // переменные для myfunc
+ void dostuff(int sock) {
+  int bytes_recv;  
+  int a, b;        
+  char action[MAX_CHAR];
   char buff[20 * 1024];
   #define str1 "Enter 1 parameter\r\n"
   #define str2 "Enter 2 parameter\r\n"
-  // отправляем клиенту сообщение
-  write(sock, str1, sizeof(str1));
-  // обработка первого параметра
+  #define str3 "Enter action\r\n"
+
+  write(sock, str1, strlen(str1));
+
   bytes_recv = read(sock, &buff[0], sizeof(buff));
   if (bytes_recv < 0) error("ERROR reading from socket");
-  a = atoi(buff);  // преобразование первого параметра в int
-  // отправляем клиенту сообщение
-  write(sock, str2, sizeof(str2));
+  a = atoi(buff); 
+
+  write(sock, str2, strlen(str2));
   bytes_recv = read(sock, &buff[0], sizeof(buff));
   if (bytes_recv < 0) error("ERROR reading from socket");
-  b = atoi(buff);  // преобразование второго параметра в int
-  a = myfunc(a, b);  // вызов пользовательской функции
-  snprintf(buff, strlen(buff), "%d", a);  // преобразование результата в строку
-  buff[strlen(buff)] = '\n';  // добавление к сообщению символа конца строки
-  // отправляем клиенту результат
-  write(sock, &buff[0], sizeof(buff));
-  nclients--;  // уменьшаем счетчик активных клиентов
+  b = atoi(buff);  
+
+  write(sock, str3, strlen(str3));
+  bytes_recv = read(sock, &action, sizeof(action));
+  if (bytes_recv < 0) error("ERROR reading from socket");
+  action[bytes_recv - 1] = '\0'; 
+
+  int act = GetAction(action);
+  switch (act)
+  {
+  case 1:
+    a = summ(a, b);
+    break;
+  case 2:
+    a = difference(a, b);
+    break;
+  case 3:
+    a = multiplication(a, b);
+    break;
+  case 4:
+    a = division(a, b);
+    break;
+  default:
+    break;
+  } 
+  snprintf(buff, sizeof(buff), "%d", a);  
+  buff[strlen(buff)] = '\n';  
+  write(sock, &buff[0], strlen(buff) + 1); 
+  nclients--;  
   printf("-disconnect\n");
   printusers();
   return;
 }
+ 
