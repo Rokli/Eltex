@@ -10,21 +10,21 @@
 #define MAX_LEGTH_CHAR 1024
 
 int sockaddr_in_cmp(const struct sockaddr_in *a, const struct sockaddr_in *b) {
-    int result = 0;
+  int result = 0;
 
-    if (a->sin_family != b->sin_family) {
-        return -1;
-    }
+  if (a->sin_family != b->sin_family) {
+    return -1;
+  }
 
-    if (memcmp(&a->sin_addr, &b->sin_addr, sizeof(a->sin_addr)) != 0) {
-        return -1;
-    }
+  if (memcmp(&a->sin_addr, &b->sin_addr, sizeof(a->sin_addr)) != 0) {
+    return -1;
+  }
 
-    if (ntohs(a->sin_port) != ntohs(b->sin_port)) {
-        return -1;
-    }
+  if (ntohs(a->sin_port) != ntohs(b->sin_port)) {
+    return -1;
+  }
 
-    return 0;
+  return 0;
 }
 
 int main() {
@@ -34,7 +34,7 @@ int main() {
   struct sockaddr_in servaddr, cliaddr, cliaddr_first, cliaddr_second;
 
   sockfd = socket(PF_INET, SOCK_DGRAM, 0);
-  
+
   if (sockfd < 0) {
     perror(NULL);
     exit(1);
@@ -48,7 +48,7 @@ int main() {
   memset(&cliaddr_first, 0, sizeof(cliaddr_first));
   cliaddr_first.sin_family = AF_INET;
   cliaddr_first.sin_port = htons(20);
-  
+
   memset(&cliaddr_second, 0, sizeof(cliaddr_second));
   cliaddr_second.sin_family = AF_INET;
   cliaddr_second.sin_port = htons(30);
@@ -59,36 +59,31 @@ int main() {
     exit(1);
   }
 
-  for(;;) {
+  for (;;) {
     clieln = sizeof(cliaddr);
 
-    if ((n = recvfrom(sockfd, buffer, MAX_LEGTH_CHAR, 0, (struct sockaddr *)&cliaddr,&clieln)) < 0) {
+    if ((n = recvfrom(sockfd, buffer, MAX_LEGTH_CHAR, 0,
+                      (struct sockaddr *)&cliaddr, &clieln)) < 0) {
       perror(NULL);
       exit(1);
     }
-    printf("%s\n",buffer);
-    if(sockaddr_in_cmp(&cliaddr,&cliaddr_first) == 1){
-      printf("---");
-      clieln = sizeof(cliaddr_first);
-      if (sendto(sockfd, buffer, strlen(buffer), 0, (struct sockaddr *)&cliaddr_first,sizeof(cliaddr_first)) < 0) {
-        perror(NULL);
-        exit(1);
-      }
-    }else{
-      printf("{}{}{}");
-      clieln = sizeof(cliaddr_second);
-      if (sendto(sockfd, buffer, strlen(buffer), 0, (struct sockaddr *)&cliaddr_second,sizeof(cliaddr_second)) < 0) {
-        perror(NULL);
-        exit(1);
-      }
+    printf("%s\n", buffer);
+    clieln = sizeof(cliaddr_first);
+    if (sendto(sockfd, buffer, strlen(buffer), 0,
+               (struct sockaddr *)&cliaddr_first, sizeof(cliaddr_first)) < 0) {
+      perror(NULL);
+      exit(1);
+    }
+    clieln = sizeof(cliaddr_second);
+    if (sendto(sockfd, buffer, strlen(buffer), 0,
+               (struct sockaddr *)&cliaddr_second,
+               sizeof(cliaddr_second)) < 0) {
+      perror(NULL);
+      exit(1);
     }
     memset(&cliaddr, 0, sizeof(cliaddr));
-    memset(buffer, 0, sizeof(buffer)); 
-    // if (sendto(sockfd, buffer, strlen(buffer), 0, (struct sockaddr *)&cliaddr,&clieln) < 0) {
-    //   perror(NULL);
-    //   exit(1);
-    // }
+    memset(buffer, 0, sizeof(buffer));
   }
-  
-    return 0;
+
+  return 0;
 }
