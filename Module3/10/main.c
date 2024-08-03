@@ -18,7 +18,7 @@
 
 int main(int argc, char *argv[]) {
   sem_t *sema_n;
-
+  
   sem_close(sema_n);
   sem_unlink(SEM_NAME);
 

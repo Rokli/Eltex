@@ -13,8 +13,8 @@
      - [X] task 8
      - [X] task 9
      - [X] task 10
-     - [X] task 11
-     - [ ] task 12
+     - [] task 11
+     - [X] task 12
      - [X] task 13
      - [X] task 14
      - [X] task 15
