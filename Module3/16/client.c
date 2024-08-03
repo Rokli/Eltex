@@ -45,19 +45,29 @@ int main(int argc, char *argv[]) {
     error("ERROR connecting");
 
   while ((n = recv(my_sock, &buff[0], sizeof(buff) - 1, 0)) > 0) {
-
-    buff[n] = 0;
+    buff[n] = '\0';
 
     printf("S=>C:%s", buff);
 
     printf("S<=C:");
     fgets(&buff[0], sizeof(buff) - 1, stdin);
-
+    // buff[sizeof(buff)  - 1] = '\0';
     if (!strcmp(&buff[0], "quit\n")) {
-
       printf("Exit...");
       close(my_sock);
       return 0;
+    }
+    if (!strcmp(&buff[0], "file\n")) {
+      FILE *fp = fopen("file_to_send.txt", "rb");
+      while (1) {
+        size_t bytes_read = fread(buff, sizeof(char), 1024, fp);
+        if (bytes_read > 0) {
+          send(my_sock, buff, bytes_read, 0);
+        }
+        if (bytes_read < 1024) break;  
+      }
+
+      fclose(fp);
     }
     send(my_sock, &buff[0], strlen(&buff[0]), 0);
   }

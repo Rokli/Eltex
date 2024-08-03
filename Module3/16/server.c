@@ -1,3 +1,5 @@
+#include <arpa/inet.h>
+#include <netdb.h>
 #include <netinet/in.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -5,10 +7,11 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <netdb.h>
-#include <arpa/inet.h>
 
 #define MAX_CHAR 32
+#define str1 "Enter 1 parameter\r\n"
+#define str2 "Enter 2 parameter\r\n"
+#define str3 "Enter action\r\n"
 
 void dostuff(int);
 
@@ -27,11 +30,12 @@ void printusers() {
   }
 }
 
-int GetAction(char action[]){
-    if(strcmp(action,"+") == 0)return 1;
-    if(strcmp(action,"-") == 0)return 2;
-    if(strcmp(action,"*") == 0)return 3;
-    if(strcmp(action,"/") == 0)return 4;
+int GetAction(char action[]) {
+  if (strcmp(action, "+") == 0) return 1;
+  if (strcmp(action, "-") == 0) return 2;
+  if (strcmp(action, "*") == 0) return 3;
+  if (strcmp(action, "/") == 0) return 4;
+  if (strcmp(action, "file") == 0) return 5;
 }
 
 int summ(int a, int b) { return a + b; }
@@ -93,55 +97,69 @@ int main(int argc, char *argv[]) {
   close(sockfd);
   return 0;
 }
- void dostuff(int sock) {
-  int bytes_recv;  
-  int a, b;        
+void dostuff(int sock) {
+  int bytes_recv;
+  int a, b;
   char action[MAX_CHAR];
   char buff[20 * 1024];
-  #define str1 "Enter 1 parameter\r\n"
-  #define str2 "Enter 2 parameter\r\n"
-  #define str3 "Enter action\r\n"
 
   write(sock, str1, strlen(str1));
 
   bytes_recv = read(sock, &buff[0], sizeof(buff));
   if (bytes_recv < 0) error("ERROR reading from socket");
-  a = atoi(buff); 
+  a = atoi(buff);
 
   write(sock, str2, strlen(str2));
   bytes_recv = read(sock, &buff[0], sizeof(buff));
   if (bytes_recv < 0) error("ERROR reading from socket");
-  b = atoi(buff);  
+  b = atoi(buff);
 
   write(sock, str3, strlen(str3));
   bytes_recv = read(sock, &action, sizeof(action));
   if (bytes_recv < 0) error("ERROR reading from socket");
-  action[bytes_recv - 1] = '\0'; 
+  action[bytes_recv - 1] = '\0';
 
-  int act = GetAction(action);
-  switch (act)
-  {
-  case 1:
-    a = summ(a, b);
-    break;
-  case 2:
-    a = difference(a, b);
-    break;
-  case 3:
-    a = multiplication(a, b);
-    break;
-  case 4:
-    a = division(a, b);
-    break;
-  default:
-    break;
-  } 
-  snprintf(buff, sizeof(buff), "%d", a);  
-  buff[strlen(buff)] = '\n';  
-  write(sock, &buff[0], strlen(buff) + 1); 
-  nclients--;  
+  int act = 5;
+  printf("%d", act);
+  // if(act == -5) act == 5;
+  switch (act) {
+    case 1:
+      a = summ(a, b);
+      snprintf(buff, sizeof(buff), "%d", a);
+      buff[strlen(buff)] = '\n';
+      write(sock, &buff[0], strlen(buff) + 1);
+      break;
+    case 2:
+      a = difference(a, b);
+      snprintf(buff, sizeof(buff), "%d", a);
+      buff[strlen(buff)] = '\n';
+      write(sock, &buff[0], strlen(buff) + 1);
+      break;
+    case 3:
+      a = multiplication(a, b);
+      snprintf(buff, sizeof(buff), "%d", a);
+      buff[strlen(buff)] = '\n';
+      write(sock, &buff[0], strlen(buff) + 1);
+      break;
+    case 4:
+      a = division(a, b);
+      snprintf(buff, sizeof(buff), "%d", a);
+      buff[strlen(buff)] = '\n';
+      write(sock, &buff[0], strlen(buff) + 1);
+      break;
+    case 5:
+      FILE *fp = fopen("file_to_server.txt", "wb");
+      while ((bytes_recv = recv(sock, buff, sizeof(buff), 0)) > 0) {
+        fwrite(buff, sizeof(char), bytes_recv, fp);
+      }
+      fclose(fp);
+      break;
+    default:
+      break;
+  }
+  write(sock, &buff[0], strlen(buff) + 1);
+  nclients--;
   printf("-disconnect\n");
   printusers();
   return;
 }
- 
