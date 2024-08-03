@@ -11,4 +11,13 @@
      - [X] task 6
      - [X] task 7
      - [X] task 8
-     - [ ] task 9
+     - [X] task 9
+     - [X] task 10
+     - [X] task 11
+     - [ ] task 12
+     - [X] task 13
+     - [X] task 14
+     - [X] task 15
+     - [X] task 16
+     - [ ] task 17
+     - [ ] task 18

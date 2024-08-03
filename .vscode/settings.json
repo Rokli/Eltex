@@ -38,7 +38,14 @@
         "wait.h": "c",
         "types.h": "c",
         "errno.h": "c",
-        "ipc.h": "c"
+        "ipc.h": "c",
+        "semaphore.h": "c",
+        "shm.h": "c",
+        "algorithm": "c",
+        "in.h": "c",
+        "socket.h": "c",
+        "inet.h": "c",
+        "initializer_list": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "C_Cpp.dimInactiveRegions": false

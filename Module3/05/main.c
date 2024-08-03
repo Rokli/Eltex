@@ -56,7 +56,11 @@ int main(int argc, char *argv[]) {
             fclose(file); 
 
             int random_number = rand() % 500;
-            write(pipe_fd[1], &random_number, sizeof(random_number));
+            if (write(pipe_fd[1], &random_number, sizeof(random_number)) == -1) {
+                perror("write");
+                return 1;
+            }
+
             sleep(2);
         }
         close(pipe_fd[1]); 
@@ -74,7 +78,11 @@ int main(int argc, char *argv[]) {
                 exit(1); 
             }
 
-            read(pipe_fd[0], &received_number, sizeof(received_number));
+            if (read(pipe_fd[0], &received_number, sizeof(received_number)) == -1) {
+                perror("read");
+                return 1;
+            }
+
             fprintf(file, "%d\n", received_number);
             
             fclose(file); 
