@@ -59,15 +59,18 @@ int main(int argc, char *argv[]) {
     }
     if (!strcmp(&buff[0], "f\n")) {
       FILE *fp = fopen("file_to_send.txt", "rb");
-      while (1) {
-        size_t bytes_read = fread(buff, sizeof(char), 1024, fp);
-        if (bytes_read > 0) {
-          send(my_sock, buff, bytes_read, 0);
-        }
-        if (bytes_read < 1024) break;  
+      if (fp == NULL) {
+        perror("File opening failed");
+        return EXIT_FAILURE;
+      }
+
+      size_t bytes_read;
+      while ((bytes_read = fread(buff, sizeof(char), 1024, fp)) > 0) {
+        send(my_sock, buff, bytes_read, 0);
       }
 
       fclose(fp);
+      continue;
     }
     send(my_sock, &buff[0], strlen(&buff[0]), 0);
   }

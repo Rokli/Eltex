@@ -148,9 +148,22 @@ void dostuff(int sock) {
       break;
     case 5:
       FILE *fp = fopen("file_to_server.txt", "wb");
-      while ((bytes_recv = recv(sock, buff, sizeof(buff), 0)) > 0) {
-        fwrite(buff, sizeof(char), bytes_recv, fp);
+      if (fp == NULL) {
+        perror("File opening failed");
+        return;
       }
+
+      int bytes_received;
+      while ((bytes_received = recv(sock, buff, 1024, 0)) > 0) {
+        fwrite(buff, sizeof(char), bytes_received, fp);
+      }
+
+      if (bytes_received < 0) {
+        perror("recv failed");
+      }
+
+      printf("File received successfully.\n");
+
       fclose(fp);
       break;
     default:
