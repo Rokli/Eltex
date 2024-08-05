@@ -88,7 +88,7 @@ int main() {
   } else {
     signal(SIGINT, sigint_handler);
     for (int i = 0;; i++) {
-        int size_array = rand() % 10;
+      int size_array = rand() % 10;
       if (i%2 == 0) {
         P(semid);
        
@@ -96,7 +96,7 @@ int main() {
         for (int i = 1; i < size_array; i++) {
           shared_memory[i] = rand() % 15;
         }
-        shared_memory[i] = size_array;
+        shared_memory[0] = size_array;
         printf("отработал\n");
         V(semid);
       } else {
