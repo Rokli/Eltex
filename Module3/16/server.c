@@ -35,7 +35,7 @@ int GetAction(char action[]) {
   if (strcmp(action, "-") == 0) return 2;
   if (strcmp(action, "*") == 0) return 3;
   if (strcmp(action, "/") == 0) return 4;
-  if (strcmp(action, "file") == 0) return 5;
+  if (strcmp(action, "f") == 0) return 5;
 }
 
 int summ(int a, int b) { return a + b; }
@@ -101,7 +101,7 @@ void dostuff(int sock) {
   int bytes_recv;
   int a, b;
   char action[MAX_CHAR];
-  char buff[20 * 1024];
+  char buff[1024];
 
   write(sock, str1, strlen(str1));
 
@@ -119,9 +119,8 @@ void dostuff(int sock) {
   if (bytes_recv < 0) error("ERROR reading from socket");
   action[bytes_recv - 1] = '\0';
 
-  int act = 5;
-  printf("%d", act);
-  // if(act == -5) act == 5;
+  int act = GetAction(action);
+
   switch (act) {
     case 1:
       a = summ(a, b);

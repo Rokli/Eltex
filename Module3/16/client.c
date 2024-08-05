@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
       close(my_sock);
       return 0;
     }
-    if (!strcmp(&buff[0], "file\n")) {
+    if (!strcmp(&buff[0], "f\n")) {
       FILE *fp = fopen("file_to_send.txt", "rb");
       while (1) {
         size_t bytes_read = fread(buff, sizeof(char), 1024, fp);
