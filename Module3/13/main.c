@@ -40,7 +40,7 @@ int MinNum(int *array, int size_array) {
 }
 
 int main() {
-  sem_t *semid = sem_open(SEM_NAME, O_CREAT | O_EXCL, 0666, 1);
+  sem_t *semid = sem_open(SEM_NAME_WRITER, O_CREAT | O_EXCL, 0666, 1);
   int *shm_ptr;
   int shm_fd = shm_open(SHM_NAME, O_CREAT | O_RDWR, 0666);
 
@@ -85,7 +85,7 @@ int main() {
         for (int i = 1; i < size_array; i++) {
           shm_ptr[i] = rand() % 15;
         }
-        shm_ptr[i] = size_array;
+        shm_ptr[0] = size_array;
         printf("отработал\n");
         sem_post(semid);
       } else {
